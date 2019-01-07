@@ -1,0 +1,17 @@
+{
+  "name": "rolfisub-ski",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Rolf Bansbach <rolfisub@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "prettier": "^1.15.3",
+    "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  }
+}

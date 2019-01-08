@@ -8,7 +8,7 @@ enum IMAGES {
   LEFT = "img/skier_left.png"
 }
 
-export class Player extends GameObject2D {
+export class BasicMovement extends GameObject2D {
   public keyDownHandler = event => {
     switch (event.keyCode) {
       case COMMON_KEY_CODES.ARROW_UP: {
@@ -59,7 +59,7 @@ export class Player extends GameObject2D {
   };
 }
 
-const player = new Player();
+const player = new BasicMovement();
 player.pos = {
   x: 200,
   y: 200

@@ -1,12 +1,12 @@
 import { Game } from "../common/game";
-import { myPlayer } from "../examples/player";
+import { mp } from "./objects/player";
 
 export class SkiGame extends Game {}
 
 const sg = new SkiGame();
 sg.el = "#myCanvas";
 
-sg.addObject(myPlayer);
+sg.addObject(mp);
 
 sg.init();
 

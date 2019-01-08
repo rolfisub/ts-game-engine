@@ -1,4 +1,4 @@
-import { Game } from "../../common/game";
+import { Game } from "../../../common/game";
 import { testObj, testObj2 } from "../components/test";
 
 const game = new Game();

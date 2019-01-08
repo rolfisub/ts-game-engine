@@ -1,5 +1,5 @@
 import { Game } from "../common/game";
-import { myPlayer } from "./objects/player";
+import { myPlayer } from "../examples/player";
 
 export class SkiGame extends Game {}
 

@@ -68,25 +68,65 @@ export class Player extends GameObject2D {
   };
 
   public setDirectionFromKeyStates = () => {
-    this.direction = Directions2D.NONE;
-
-    if (this.keyStates.up) {
-      this.direction = Directions2D.UP;
-    }
     if (this.keyStates.down) {
       this.direction = Directions2D.DOWN;
     }
-    if (this.keyStates.left) {
-      this.direction = Directions2D.LEFT;
+    if (this.direction === Directions2D.DOWN) {
+      if (this.keyStates.left) {
+        this.direction = Directions2D.DOWN_LEFT;
+      }
+      if (this.keyStates.right) {
+        this.direction = Directions2D.DOWN_RIGHT;
+      }
     }
-    if (this.keyStates.right) {
-      this.direction = Directions2D.RIGHT;
+    if (
+      this.direction === Directions2D.DOWN_RIGHT ||
+      this.direction === Directions2D.DOWN_LEFT
+    ) {
+      if (this.keyStates.down) {
+        this.direction = Directions2D.DOWN;
+      }
     }
-    if (this.keyStates.down && this.keyStates.right) {
-      this.direction = Directions2D.DOWN_RIGHT;
+    if (this.direction === Directions2D.DOWN_RIGHT) {
+      if (this.keyStates.left) {
+        this.direction = Directions2D.DOWN;
+      }
     }
-    if (this.keyStates.down && this.keyStates.left) {
-      this.direction = Directions2D.DOWN_LEFT;
+    if (this.direction === Directions2D.DOWN_LEFT) {
+      if (this.keyStates.right) {
+        this.direction = Directions2D.DOWN;
+      }
+    }
+    if (this.keyStates.up) {
+      this.direction = Directions2D.NONE;
+    }
+    if (this.direction === Directions2D.NONE) {
+      if (this.keyStates.left) {
+        this.direction = Directions2D.LEFT;
+      }
+      if (this.keyStates.right) {
+        this.direction = Directions2D.RIGHT;
+      }
+    }
+    if (this.direction === Directions2D.LEFT) {
+      if (!this.keyStates.left) {
+        this.direction = Directions2D.NONE;
+      }
+    }
+    if (this.direction === Directions2D.RIGHT) {
+      if (!this.keyStates.right) {
+        this.direction = Directions2D.NONE;
+      }
+    }
+    if (this.direction === Directions2D.NONE) {
+      if (this.keyStates.up) {
+        this.direction = Directions2D.UP;
+      }
+    }
+    if (this.direction === Directions2D.UP) {
+      if (!this.keyStates.up) {
+        this.direction = Directions2D.NONE;
+      }
     }
   };
 

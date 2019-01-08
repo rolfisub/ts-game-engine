@@ -89,7 +89,7 @@ export class Game {
         this.images[imgsrc].src = imgsrc;
       }
     }
-    if (_.isArray(imgsrc)) {
+    else if (_.isArray(imgsrc)) {
       imgsrc.forEach(isrc => {
         if (isrc && !this.images[isrc]) {
           this.images[isrc] = new Image();

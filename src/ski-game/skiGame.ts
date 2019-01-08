@@ -5,9 +5,10 @@ export class SkiGame extends Game {}
 
 const sg = new SkiGame();
 sg.el = "#myCanvas";
+sg.init();
 
 sg.addObject(mp);
 
-sg.init();
+
 
 export const skiGame = sg;

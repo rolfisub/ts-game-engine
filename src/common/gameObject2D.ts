@@ -4,7 +4,7 @@ export class GameObject2D {
   public width: number;
   public height: number;
   public pos: Vector2D;
-  public imgsrc: string;
+  public imgsrc: string | string[];
   public speed: number;
   public direction: Directions2D;
   public getImage: (src) => CanvasImageSource;
@@ -16,8 +16,16 @@ export class GameObject2D {
    */
   public init = () => {
     if (this.imgsrc) {
-      this.image = this.getImage(this.imgsrc);
+      this.image = this.getImage(this.imgsrc[0]);
     }
+  };
+
+  /**
+   * update current image to src
+   * @param src
+   */
+  public updateImageTo = src => {
+    this.image = this.getImage(src);
   };
 
   /**
@@ -37,17 +45,24 @@ export class GameObject2D {
   };
 
   /**
-   * basic move function
+   * make changes to the object state
+   */
+  public update = () => {
+    this.move();
+  };
+
+  /**
+   * built in basic move function
    */
   public move = () => {
     switch (this.direction) {
       case Directions2D.DOWN: {
-        this.pos.x += this.speed;
+        this.pos.y += this.speed;
         break;
       }
       case Directions2D.DOWN_LEFT: {
-        this.pos.x += this.speed;
-        this.pos.y += -1 * this.speed;
+        this.pos.y += this.speed;
+        this.pos.x += -1 * this.speed;
         break;
       }
       case Directions2D.DOWN_RIGHT: {
@@ -56,25 +71,25 @@ export class GameObject2D {
         break;
       }
       case Directions2D.LEFT: {
-        this.pos.y += -1 * this.speed;
+        this.pos.x += -1 * this.speed;
         break;
       }
       case Directions2D.RIGHT: {
-        this.pos.y += this.speed;
+        this.pos.x += this.speed;
         break;
       }
       case Directions2D.UP: {
-        this.pos.x += -1 * this.speed;
+        this.pos.y += -1 * this.speed;
         break;
       }
       case Directions2D.UP_RIGHT: {
-        this.pos.x += -1 * this.speed;
-        this.pos.y += this.speed;
+        this.pos.y += -1 * this.speed;
+        this.pos.x += this.speed;
         break;
       }
       case Directions2D.UP_LEFT: {
-        this.pos.x += -1 * this.speed;
         this.pos.y += -1 * this.speed;
+        this.pos.x += -1 * this.speed;
         break;
       }
       default: {

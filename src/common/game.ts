@@ -6,26 +6,35 @@ export class Game {
   public height: number;
   public el: string;
   public objects: GameObject2D[] = [];
-  public ctx: CanvasRenderingContext2D | null;
-  public canvas: HTMLCanvasElement;
+
+  private images: object = {};
+  private ctx: CanvasRenderingContext2D | null;
+  private canvas: HTMLCanvasElement;
 
   /**
    * initialize canvas
    */
   public init = () => {
-    const canvas = $<HTMLCanvasElement>(this.el)
+    this.canvas = $<HTMLCanvasElement>(this.el)
       .attr("width", this.width * window.devicePixelRatio)
       .attr("height", this.height * window.devicePixelRatio)
       .css({
         width: this.width + "px",
         height: this.height + "px"
-      });
-    this.canvas = canvas[0];
+      })[0];
     this.ctx = this.canvas.getContext("2d");
     if (this.ctx) {
       //clear screen with a rect
       this.ctx.clearRect(0, 0, this.width, this.height);
     }
+    this.objects.forEach(o => {
+      if (o.imgsrc && !this.images[o.imgsrc]) {
+        this.images[o.imgsrc] = new Image();
+        this.images[o.imgsrc].src = o.imgsrc;
+      }
+      o.getImage = src => this.images[src];
+      o.init();
+    });
   };
   /**
    * main render method

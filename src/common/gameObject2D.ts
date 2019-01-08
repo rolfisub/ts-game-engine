@@ -4,22 +4,40 @@ export class GameObject2D {
   public width: number;
   public height: number;
   public pos: Vector2D;
-  public img: CanvasImageSource;
+  public imgsrc: string;
   public speed: number;
   public direction: Directions2D;
+  public getImage: (src) => CanvasImageSource;
+  private image: CanvasImageSource;
+
+  /**
+   * function that is called when initializing an object
+   * by default it loads the default image
+   */
+  public init = () => {
+    if (this.imgsrc) {
+      this.image = this.getImage(this.imgsrc);
+    }
+  };
 
   /**
    * basic rendering function
    * @param {CanvasRenderingContext2D} ctx
    */
   public render = (ctx: CanvasRenderingContext2D | null) => {
-    if (ctx) {
-      ctx.drawImage(this.img, this.pos.x, this.pos.y, this.width, this.height);
+    if (ctx && this.image) {
+      ctx.drawImage(
+        this.image,
+        this.pos.x,
+        this.pos.y,
+        this.width,
+        this.height
+      );
     }
   };
 
   /**
-   * bsic move function
+   * basic move function
    */
   public move = () => {
     switch (this.direction) {

@@ -6,8 +6,8 @@ const game = new Game();
 game.el = "#myCanvas";
 game.width = window.innerWidth;
 game.height = window.innerHeight;
-game.init();
-
 game.addObject(testObj);
+
+game.init();
 
 export const testGame = game;

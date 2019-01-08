@@ -9,9 +9,8 @@ test.pos = {
 };
 test.speed = 8;
 test.direction = Directions2D.NONE;
-test.img = new Image();
-test.img.src = "img/skier_down.png";
-test.width = test.img.width;
-test.height = test.img.height;
+test.imgsrc = "img/skier_down.png";
+test.width = 25;
+test.height = 25;
 
 export const testObj = test;

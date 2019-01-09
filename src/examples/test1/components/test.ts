@@ -1,5 +1,5 @@
-import { GameObject2D } from "../../../common/gameObject2D";
-import { Directions2D } from "../../../common/common";
+import { GameObject2D } from "../../../engine/gameObject2D";
+import { Directions2D } from "../../../engine/common";
 
 const test = new GameObject2D();
 

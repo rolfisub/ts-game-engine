@@ -1,4 +1,4 @@
-import { Game } from "../common/game";
+import { Game } from "../engine/game";
 import { mp } from "./objects/player";
 import { bg } from "./objects/background";
 

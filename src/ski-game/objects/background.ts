@@ -1,4 +1,4 @@
-import { GameObject2D } from "../../common/gameObject2D";
+import { GameObject2D } from "../../engine/gameObject2D";
 
 class Background extends GameObject2D {
   /**

@@ -1,5 +1,5 @@
-import { GameObject2D } from "../common/gameObject2D";
-import { COMMON_KEY_CODES, Directions2D } from "../common/common";
+import { GameObject2D } from "../engine/gameObject2D";
+import { COMMON_KEY_CODES, Directions2D } from "../engine/common";
 import * as $ from "jquery";
 
 enum IMAGES {

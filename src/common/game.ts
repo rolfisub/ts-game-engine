@@ -21,7 +21,8 @@ export class Game {
       .attr("height", this.height * window.devicePixelRatio)
       .css({
         width: this.width + "px",
-        height: this.height + "px"
+        height: this.height + "px",
+        border: "1px solid"
       })[0];
     this.ctx = this.canvas.getContext("2d");
     this.objects.forEach(o => {
@@ -60,8 +61,29 @@ export class Game {
    */
   private initObject = (o: GameObject2D) => {
     this.loadImage(o.imgsrc);
-    o.getImage = src => this.images[src];
+    this.injectGameApi(o);
     o.init();
+  };
+
+  /**
+   * injects game api to game objects
+   * @param {GameObject2D} o
+   */
+  private injectGameApi = (o: GameObject2D) => {
+    o.getImage = src => this.images[src];
+    o.getObjectInstance = (id: string) =>
+      this.objects.find(obj => {
+        return obj.id === id;
+      });
+    o.getObjectsById = (id: string) => {
+      const res = this.objects.filter(obj => {
+        return obj.id === id;
+      });
+      if (res.length > 0) {
+        return res;
+      }
+      return undefined;
+    };
   };
 
   /**
@@ -88,8 +110,7 @@ export class Game {
         this.images[imgsrc] = new Image();
         this.images[imgsrc].src = imgsrc;
       }
-    }
-    else if (_.isArray(imgsrc)) {
+    } else if (_.isArray(imgsrc)) {
       imgsrc.forEach(isrc => {
         if (isrc && !this.images[isrc]) {
           this.images[isrc] = new Image();

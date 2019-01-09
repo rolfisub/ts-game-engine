@@ -1,13 +1,16 @@
 import { Directions2D, Vector2D } from "./common";
 
 export class GameObject2D {
-  public width: number;
-  public height: number;
-  public pos: Vector2D;
-  public imgsrc: string | string[];
-  public speed: number;
-  public direction: Directions2D;
+  public id: string = "";
+  public width: number = 50;
+  public height: number = 50;
+  public pos: Vector2D = { x: 50, y: 50 };
+  public imgsrc: string | string[] = "";
+  public speed: number = 1;
+  public direction: Directions2D = Directions2D.NONE;
   public getImage: (src) => CanvasImageSource;
+  public getObjectInstance: (id: string) => GameObject2D | undefined;
+  public getObjectsById: (id: string) => GameObject2D[] | undefined;
   private image: CanvasImageSource;
 
   /**
@@ -46,6 +49,7 @@ export class GameObject2D {
 
   /**
    * make changes to the object state
+   * by default movement is enabled
    */
   public update = () => {
     this.move();
@@ -54,46 +58,89 @@ export class GameObject2D {
   /**
    * built in basic move function
    */
-  public move = () => {
-    switch (this.direction) {
+  public move = (direction?: Directions2D, speed?: number) => {
+    let theDirection = direction ? direction : this.direction;
+    let theSpeed = speed ? speed : this.speed;
+
+    switch (theDirection) {
       case Directions2D.DOWN: {
-        this.pos.y += this.speed;
+        this.pos.y += theSpeed;
         break;
       }
       case Directions2D.DOWN_LEFT: {
-        this.pos.y += this.speed;
-        this.pos.x += -1 * this.speed;
+        this.pos.y += theSpeed;
+        this.pos.x += -1 * theSpeed;
         break;
       }
       case Directions2D.DOWN_RIGHT: {
-        this.pos.x += this.speed;
-        this.pos.y += this.speed;
+        this.pos.x += theSpeed;
+        this.pos.y += theSpeed;
         break;
       }
       case Directions2D.LEFT: {
-        this.pos.x += -1 * this.speed;
+        this.pos.x += -1 * theSpeed;
         break;
       }
       case Directions2D.RIGHT: {
-        this.pos.x += this.speed;
+        this.pos.x += theSpeed;
         break;
       }
       case Directions2D.UP: {
-        this.pos.y += -1 * this.speed;
+        this.pos.y += -1 * theSpeed;
         break;
       }
       case Directions2D.UP_RIGHT: {
-        this.pos.y += -1 * this.speed;
-        this.pos.x += this.speed;
+        this.pos.y += -1 * theSpeed;
+        this.pos.x += theSpeed;
         break;
       }
       case Directions2D.UP_LEFT: {
-        this.pos.y += -1 * this.speed;
-        this.pos.x += -1 * this.speed;
+        this.pos.y += -1 * theSpeed;
+        this.pos.x += -1 * theSpeed;
         break;
       }
       default: {
         //do nothing
+      }
+    }
+  };
+
+  /**
+   * returns opposite direction
+   * @param {Directions2D} dir
+   * @returns {Directions2D}
+   */
+  protected getOppositeDirectionFrom = (dir: Directions2D): Directions2D => {
+    if (dir === Directions2D.NONE) {
+      return Directions2D.NONE;
+    }
+    switch (dir) {
+      case Directions2D.UP: {
+        return Directions2D.DOWN;
+      }
+      case Directions2D.DOWN: {
+        return Directions2D.UP;
+      }
+      case Directions2D.RIGHT: {
+        return Directions2D.LEFT;
+      }
+      case Directions2D.LEFT: {
+        return Directions2D.RIGHT;
+      }
+      case Directions2D.DOWN_LEFT: {
+        return Directions2D.UP_RIGHT;
+      }
+      case Directions2D.DOWN_RIGHT: {
+        return Directions2D.UP_LEFT;
+      }
+      case Directions2D.UP_RIGHT: {
+        return Directions2D.DOWN_LEFT;
+      }
+      case Directions2D.UP_LEFT: {
+        return Directions2D.DOWN_RIGHT;
+      }
+      default: {
+        return Directions2D.NONE;
       }
     }
   };

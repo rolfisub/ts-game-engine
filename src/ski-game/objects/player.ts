@@ -163,17 +163,30 @@ export class Player extends GameObject2D {
     }
   };
 
+  public moveBackground = () => {
+    const bg = this.getObjectInstance("bg");
+    if (bg) {
+      const oppDir = this.getOppositeDirectionFrom(this.direction);
+      bg.move(oppDir, this.speed);
+    }
+  };
+
   public update = () => {
     this.setDirectionFromKeyStates();
     this.setImageFromDirection();
-    this.move();
+    //we disable moving the player
+    //this.move();
+    this.moveBackground();
+    //move obstacles
+
   };
 }
 
 const player = new Player();
+//center screen
 player.pos = {
-  x: 200,
-  y: 200
+  x: 572,
+  y: 360
 };
 player.height = 50;
 player.width = 50;

@@ -16,11 +16,11 @@ enum IMAGES {
   bg1 = "img/bgredcircuit.jpg"
 }
 
-background.pos.y = 0;
-background.pos.x = 0;
+background.pos.y = -5000;
+background.pos.x = -5000;
 background.imgsrc = [IMAGES.bg1];
-background.width = 1500;
-background.height = 1500;
+background.width = 10000;
+background.height = 10000;
 background.id = "bg";
 
 export const bg = background;

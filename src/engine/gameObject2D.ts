@@ -106,6 +106,7 @@ export class GameObject2D {
   };
 
   /**
+   * utility function (we might move this somewhere else in the future)
    * returns opposite direction
    * @param {Directions2D} dir
    * @returns {Directions2D}

@@ -171,6 +171,16 @@ export class Player extends GameObject2D {
     }
   };
 
+  public moveObstacles = () => {
+    const obs = this.getObjectsById("obstacle");
+    if (obs) {
+      const oppDir = this.getOppositeDirectionFrom(this.direction);
+      obs.forEach(o => {
+        o.move(oppDir, this.speed);
+      });
+    }
+  };
+
   public update = () => {
     this.setDirectionFromKeyStates();
     this.setImageFromDirection();
@@ -178,7 +188,7 @@ export class Player extends GameObject2D {
     //this.move();
     this.moveBackground();
     //move obstacles
-
+    this.moveObstacles();``
   };
 }
 

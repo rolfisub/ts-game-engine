@@ -1,7 +1,7 @@
 import { Game } from "../../../engine/game";
 import { testObj, testObj2 } from "../components/test";
 
-const game = new Game();
+const game = new Game("#myCanvas");
 
 game.el = "#myCanvas";
 game.addObject(testObj);

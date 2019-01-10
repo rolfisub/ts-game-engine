@@ -252,12 +252,13 @@ export class Player extends GameObject2D {
   };
 }
 
-const player = new Player();
+export const player = new Player();
+
 player.id = "player";
 //center screen
 player.pos = {
-  x: 572,
-  y: 360
+  x: window.innerWidth/2,
+  y: window.innerHeight/2
 };
 player.height = 50;
 player.width = 50;
@@ -274,5 +275,3 @@ player.imgsrc = [
 ];
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);
-
-export const mp = player;

@@ -263,7 +263,6 @@ player.height = 50;
 player.width = 50;
 player.speed = 8;
 player.direction = Directions2D.NONE;
-player.cameraFollow = true;
 player.imgsrc = [
   IMAGES.UP,
   IMAGES.DOWN,

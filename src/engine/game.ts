@@ -3,14 +3,26 @@ import * as $ from "jquery";
 import * as _ from "lodash";
 
 export class Game {
-  public width: number = window.innerWidth;
-  public height: number = window.innerHeight;
+  public width: number;
+  public height: number;
   public el: string;
   public objects: GameObject2D[] = [];
 
   private images: object = {};
   private ctx: CanvasRenderingContext2D | null;
   private canvas: HTMLCanvasElement;
+
+  /**
+   * game constructor, element is required
+   * @param {string} el
+   * @param {number} width
+   * @param {number} height
+   */
+  constructor(el: string, width?: number, height?: number) {
+    this.el = el;
+    this.width = width ? width : window.innerWidth;
+    this.height = height ? height : window.innerHeight;
+  }
 
   /**
    * initialize canvas

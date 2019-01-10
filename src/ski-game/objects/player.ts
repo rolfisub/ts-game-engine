@@ -179,20 +179,9 @@ export class Player extends GameObject2D {
         break;
       }
       default: {
-        //this.updateImageTo(IMAGES.RIGHT);
+        // do nothing
         break;
       }
-    }
-  };
-
-  /**
-   * moves the background relative to the player
-   */
-  public moveBackground = () => {
-    const bg = this.getObjectInstance("bg");
-    if (bg) {
-      const oppDir = this.getOppositeDirectionFrom(this.direction);
-      bg.move(oppDir, this.speed);
     }
   };
 

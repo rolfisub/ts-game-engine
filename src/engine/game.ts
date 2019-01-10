@@ -39,16 +39,6 @@ export class Game {
       this.objects.forEach(o => {
         o.update();
         o.render(this.ctx);
-        /*if (o.cameraFollow) {
-          if (this.ctx) {
-            this.ctx.save();
-            const x = o.pos.x - this.ctx.canvas.width / 2;
-            const y = o.pos.y - this.ctx.canvas.height / 2;
-            console.log(o.pos.x, o.pos.y, x, y);
-            this.ctx.translate(x, y);
-            this.ctx.restore();
-          }
-        }*/
       });
       this.ctx.restore();
       requestAnimationFrame(this.gameLoop);

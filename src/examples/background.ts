@@ -1,6 +1,6 @@
-import { GameObject2D } from "../engine/gameObject2D";
+import { GameObject } from "../engine/gameObject";
 
-class Background extends GameObject2D {
+class Background extends GameObject {
   public repeat: boolean = false;
 
   /**

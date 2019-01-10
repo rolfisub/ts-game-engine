@@ -1,4 +1,4 @@
-import { GameObject2D } from "../../engine/gameObject2D";
+import { GameObject } from "../../engine/gameObject";
 
 export enum ObstacleIMAGES {
   rock1 = "img/rock_1.png",
@@ -7,7 +7,7 @@ export enum ObstacleIMAGES {
   tree2 = "img/tree_cluster.png"
 }
 
-export class Obstacle extends GameObject2D {
+export class Obstacle extends GameObject {
   public id: string = "obs";
   public imgsrc = [
     ObstacleIMAGES.rock1,

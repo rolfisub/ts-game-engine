@@ -1,4 +1,4 @@
-import { GameObject2D } from "./gameObject2D";
+import { GameObject } from "./gameObject";
 import * as $ from "jquery";
 import * as _ from "lodash";
 
@@ -6,7 +6,7 @@ export class Game {
   public width: number;
   public height: number;
   public el: string;
-  public objects: GameObject2D[] = [];
+  public objects: GameObject[] = [];
 
   private images: object = {};
   private ctx: CanvasRenderingContext2D | null;
@@ -62,10 +62,10 @@ export class Game {
   };
   /**
    * adds an object to be rendered in the game
-   * @param {GameObject2D} obj
+   * @param {GameObject} obj
    * @returns {this}
    */
-  public addObject = (o: GameObject2D) => {
+  public addObject = (o: GameObject) => {
     this.objects.push(o);
     this.initObject(o);
     return this;
@@ -73,9 +73,9 @@ export class Game {
 
   /**
    * initializes an object
-   * @param {GameObject2D} o
+   * @param {GameObject} o
    */
-  private initObject = (o: GameObject2D) => {
+  private initObject = (o: GameObject) => {
     this.loadImage(o.imgsrc);
     this.injectGameApi(o);
     o.init();
@@ -83,9 +83,9 @@ export class Game {
 
   /**
    * injects game api to game objects
-   * @param {GameObject2D} o
+   * @param {GameObject} o
    */
-  private injectGameApi = (o: GameObject2D) => {
+  private injectGameApi = (o: GameObject) => {
     o.getImage = src => this.images[src];
     o.getObjectInstance = (id: string) =>
       this.objects.find(obj => {

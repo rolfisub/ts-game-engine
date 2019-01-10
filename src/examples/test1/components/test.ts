@@ -1,7 +1,7 @@
-import { GameObject2D } from "../../../engine/gameObject2D";
+import { GameObject } from "../../../engine/gameObject";
 import { Directions2D } from "../../../engine/common";
 
-const test = new GameObject2D();
+const test = new GameObject();
 
 test.pos = {
   x: 50,
@@ -15,7 +15,7 @@ test.height = 50;
 
 export const testObj = test;
 
-const test2 = new GameObject2D();
+const test2 = new GameObject();
 
 test2.pos = {
   x: 100,

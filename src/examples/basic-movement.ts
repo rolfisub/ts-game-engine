@@ -1,4 +1,4 @@
-import { GameObject2D } from "../engine/gameObject2D";
+import { GameObject } from "../engine/gameObject";
 import { COMMON_KEY_CODES, Directions2D } from "../engine/common";
 import * as $ from "jquery";
 
@@ -8,7 +8,7 @@ enum IMAGES {
   LEFT = "img/skier_left.png"
 }
 
-export class BasicMovement extends GameObject2D {
+export class BasicMovement extends GameObject {
   public keyDownHandler = event => {
     switch (event.keyCode) {
       case COMMON_KEY_CODES.ARROW_UP: {

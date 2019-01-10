@@ -1,7 +1,7 @@
 import { Directions2D, Vector2D } from "./common";
 import { Game } from "./game";
 
-export class GameObject2D {
+export class GameObject {
   /**
    * General game object props
    */
@@ -18,8 +18,8 @@ export class GameObject2D {
    * game API
    */
   public getImage: (src) => CanvasImageSource;
-  public getObjectInstance: (id: string) => GameObject2D | undefined;
-  public getObjectsById: (id: string) => GameObject2D[] | undefined;
+  public getObjectInstance: (id: string) => GameObject | undefined;
+  public getObjectsById: (id: string) => GameObject[] | undefined;
   public addObject: (GameObject2D) => void;
   public getGameInstance: () => Game;
 

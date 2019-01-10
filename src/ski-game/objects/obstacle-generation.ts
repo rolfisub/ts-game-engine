@@ -1,8 +1,8 @@
-import { GameObject2D } from "../../engine/gameObject2D";
+import { GameObject } from "../../engine/gameObject";
 import { Obstacle, ObstacleIMAGES } from "./obstacle";
 import { Directions2D } from "../../engine/common";
 
-class ObstacleGeneration extends GameObject2D {
+class ObstacleGeneration extends GameObject {
   private obs = new Obstacle();
   private maxGenerated: number = 5;
   private hiddenArea: number = 500;

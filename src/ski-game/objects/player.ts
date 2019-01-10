@@ -1,4 +1,4 @@
-import { GameObject2D } from "../../engine/gameObject2D";
+import { GameObject } from "../../engine/gameObject";
 import { COMMON_KEY_CODES, Directions2D } from "../../engine/common";
 import * as $ from "jquery";
 
@@ -12,7 +12,7 @@ enum IMAGES {
   CRASH = "img/skier_crash.png"
 }
 
-export class Player extends GameObject2D {
+export class Player extends GameObject {
   /**
    * keep track of keys pressed
    * @type object

@@ -172,7 +172,7 @@ export class Player extends GameObject2D {
   };
 
   public moveObstacles = () => {
-    const obs = this.getObjectsById("obstacle");
+    const obs = this.getObjectsById("obs");
     if (obs) {
       const oppDir = this.getOppositeDirectionFrom(this.direction);
       obs.forEach(o => {
@@ -186,13 +186,14 @@ export class Player extends GameObject2D {
     this.setImageFromDirection();
     //we disable moving the player
     //this.move();
-    this.moveBackground();
+    //this.moveBackground();
     //move obstacles
-    this.moveObstacles();``
+    this.moveObstacles();
   };
 }
 
 const player = new Player();
+player.id = "player";
 //center screen
 player.pos = {
   x: 572,
@@ -202,6 +203,7 @@ player.height = 50;
 player.width = 50;
 player.speed = 8;
 player.direction = Directions2D.NONE;
+player.cameraFollow = true;
 player.imgsrc = [
   IMAGES.UP,
   IMAGES.DOWN,

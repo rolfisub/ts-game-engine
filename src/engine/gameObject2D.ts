@@ -1,17 +1,32 @@
 import { Directions2D, Vector2D } from "./common";
+import { Game } from "./game";
 
 export class GameObject2D {
+  /**
+   * General game object props
+   */
   public id: string = "";
   public width: number = 50;
   public height: number = 50;
   public pos: Vector2D = { x: 50, y: 50 };
   public imgsrc: string | string[] = "";
+  public cameraFollow: boolean = false;
   public speed: number = 1;
   public direction: Directions2D = Directions2D.NONE;
+
+  /**
+   * game API
+   */
   public getImage: (src) => CanvasImageSource;
   public getObjectInstance: (id: string) => GameObject2D | undefined;
   public getObjectsById: (id: string) => GameObject2D[] | undefined;
-  private image: CanvasImageSource;
+  public addObject: (GameObject2D) => void;
+  public getGameInstance: () => Game;
+
+  /**
+   * image to be drawn
+   */
+  protected image: CanvasImageSource;
 
   /**
    * function that is called when initializing an object

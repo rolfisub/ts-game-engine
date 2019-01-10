@@ -1,6 +1,6 @@
 import { GameObject2D } from "../../engine/gameObject2D";
 
-enum IMAGES {
+export enum ObstacleIMAGES {
   rock1 = "img/rock_1.png",
   rock2 = "img/rock_2.png",
   tree1 = "img/tree_1.png",
@@ -8,19 +8,14 @@ enum IMAGES {
 }
 
 export class Obstacle extends GameObject2D {
-  public id: string = "obstacle";
-  public imgsrc = [IMAGES.rock1, IMAGES.rock2, IMAGES.tree1, IMAGES.tree2];
+  public id: string = "obs";
+  public imgsrc = [ObstacleIMAGES.rock1, ObstacleIMAGES.rock2, ObstacleIMAGES.tree1, ObstacleIMAGES.tree2];
+  public width: number = 25;
+  public height: number = 25;
 
   //disable default moving
   public update = () => {
     //do nothing
   };
+
 }
-
-export const obs1 = new Obstacle();
-
-obs1.width = 50;
-obs1.height = 50;
-
-obs1.pos.x = 200;
-obs1.pos.y = 200;

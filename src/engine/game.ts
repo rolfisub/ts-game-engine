@@ -48,10 +48,14 @@ export class Game {
     if (this.ctx) {
       this.ctx.save();
       this.clearCanvas();
-      this.objects.forEach(o => {
-        o.update();
-        o.render(this.ctx);
-      });
+      this.objects
+        //render priority
+        .sort((a, b) => a.renderPriority - b.renderPriority)
+        //process state and render
+        .forEach(o => {
+          o.update();
+          o.render(this.ctx);
+        });
       this.ctx.restore();
       requestAnimationFrame(this.gameLoop);
     }

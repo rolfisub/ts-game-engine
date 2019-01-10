@@ -68,6 +68,7 @@ class ObstacleGeneration extends GameObject2D {
         game.height,
         game.height + this.hiddenArea
       );
+      o.renderPriority = 0;
 
       if (oi === ObstacleIMAGES.tree1) {
         o.width = 50;

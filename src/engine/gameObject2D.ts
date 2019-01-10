@@ -12,6 +12,7 @@ export class GameObject2D {
   public imgsrc: string | string[] = "";
   public speed: number = 1;
   public direction: Directions2D = Directions2D.NONE;
+  public renderPriority: number = 1;
 
   /**
    * game API

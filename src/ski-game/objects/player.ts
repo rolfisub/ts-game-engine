@@ -8,10 +8,15 @@ enum IMAGES {
   LEFT = "img/skier_left.png",
   DOWN_LEFT = "img/skier_left_down.png",
   RIGHT = "img/skier_right.png",
-  DOWN_RIGHT = "img/skier_right_down.png"
+  DOWN_RIGHT = "img/skier_right_down.png",
+  CRASH = "img/skier_crash.png"
 }
 
 export class Player extends GameObject2D {
+  /**
+   * keep track of keys pressed
+   * @type object
+   */
   public keyStates = {
     up: false,
     down: false,
@@ -19,6 +24,10 @@ export class Player extends GameObject2D {
     left: false
   };
 
+  /**
+   * handle key down
+   * @param event
+   */
   public keyDownHandle = event => {
     switch (event.keyCode) {
       case COMMON_KEY_CODES.ARROW_UP: {
@@ -43,6 +52,10 @@ export class Player extends GameObject2D {
     }
   };
 
+  /**
+   * handle key up
+   * @param event
+   */
   public keyUpHandle = event => {
     switch (event.keyCode) {
       case COMMON_KEY_CODES.ARROW_UP: {
@@ -67,6 +80,11 @@ export class Player extends GameObject2D {
     }
   };
 
+  /**
+   * set direction of the player
+   * based on current key states
+   * TODO: Improve this method
+   */
   public setDirectionFromKeyStates = () => {
     if (this.keyStates.down) {
       this.direction = Directions2D.DOWN;
@@ -130,6 +148,10 @@ export class Player extends GameObject2D {
     }
   };
 
+  /**
+   * based on the direction of the player
+   * change the image
+   */
   public setImageFromDirection = () => {
     switch (this.direction) {
       case Directions2D.RIGHT: {
@@ -157,12 +179,15 @@ export class Player extends GameObject2D {
         break;
       }
       default: {
-        this.updateImageTo(IMAGES.RIGHT);
+        //this.updateImageTo(IMAGES.RIGHT);
         break;
       }
     }
   };
 
+  /**
+   * moves the background relative to the player
+   */
   public moveBackground = () => {
     const bg = this.getObjectInstance("bg");
     if (bg) {
@@ -171,6 +196,9 @@ export class Player extends GameObject2D {
     }
   };
 
+  /**
+   * moves obstacles relative to the player
+   */
   public moveObstacles = () => {
     const obs = this.getObjectsById("obs");
     if (obs) {
@@ -181,12 +209,55 @@ export class Player extends GameObject2D {
     }
   };
 
+  /**
+   * updates the player when a collision is detected
+   */
+  public updatePlayerOnCollision = () => {
+    if (this.obstacleCollision()) {
+      setTimeout(() => {
+        this.direction = Directions2D.NONE;
+        this.updateImageTo(IMAGES.CRASH);
+      }, 150);
+    }
+  };
+
+  /**
+   * checks if player collides with any obstacle
+   */
+  public obstacleCollision = (): boolean => {
+    const obs = this.getObjectsById("obs");
+    const game = this.getGameInstance();
+    if (obs) {
+      const inScreen = obs.filter(o => {
+        return (
+          o.pos.x > 0 &&
+          o.pos.x < game.width &&
+          o.pos.y > 0 &&
+          o.pos.y < game.height
+        );
+      });
+      const cal = 10;
+      const colliding = inScreen.filter(o => {
+        return (
+          this.pos.x + cal < o.pos.x + o.width &&
+          this.pos.x + this.width - cal > o.pos.x &&
+          this.pos.y + cal < o.pos.y + o.height &&
+          this.pos.y + this.height - cal > o.pos.y
+        );
+      });
+      return colliding.length > 0;
+    }
+    return false;
+  };
+
+  /**
+   * update method
+   */
   public update = () => {
     this.setDirectionFromKeyStates();
     this.setImageFromDirection();
-    //we disable moving the player
-    //this.move();
-    //this.moveBackground();
+    //check for collision
+    this.updatePlayerOnCollision();
     //move obstacles
     this.moveObstacles();
   };
@@ -210,7 +281,8 @@ player.imgsrc = [
   IMAGES.DOWN_RIGHT,
   IMAGES.DOWN_LEFT,
   IMAGES.LEFT,
-  IMAGES.RIGHT
+  IMAGES.RIGHT,
+  IMAGES.CRASH
 ];
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

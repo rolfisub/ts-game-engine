@@ -2,7 +2,7 @@ import { GameObject } from "./gameObject";
 
 export interface Animation {
   images: string[];
-  timing: number;
+  speed: number;
   repeat: boolean;
   running: boolean;
 }
@@ -21,6 +21,7 @@ export class AnimatedObject extends GameObject {
     if (animation) {
       if (!animation.running) {
         let index = 0;
+        this.animationKey = key;
         this.animationInterval = setInterval(() => {
           animation.running = true;
           if (index >= animation.images.length) {
@@ -33,7 +34,7 @@ export class AnimatedObject extends GameObject {
           }
           this.updateImageTo(animation.images[index]);
           index++;
-        }, animation.timing);
+        }, animation.speed);
       }
     }
   };

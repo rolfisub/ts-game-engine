@@ -14,7 +14,7 @@ r.pos = {
   y: 0
 };
 r.addAnimation("run", r.runAnimation);
-
+r.addAnimation("eat", r.eatAnimation);
 sg.addObject(r);
 
 export const skiGame = sg;

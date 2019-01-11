@@ -39,6 +39,10 @@ export class Rhino extends AnimatedObject {
   };
 
   public update = () => {
-    this.moveToPlayer();
+    if(!this.isCollisionWith("player")) {
+      this.moveToPlayer();
+    } else {
+      this.startAnimation("eat");
+    }
   };
 }

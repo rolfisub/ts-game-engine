@@ -150,6 +150,25 @@ export class GameObject {
   };
 
   /**
+   * move object to a vector
+   * @param {Vector2D} to
+   */
+  public moveTo = (to: Vector2D) => {
+    //calculate direction
+    let toX = to.x - this.pos.x;
+    let toY = to.y - this.pos.y;
+
+    //normalize
+    const toObjLength = Math.sqrt(toX * toX + toY * toY);
+    toX /= toObjLength;
+    toY /= toObjLength;
+
+    //Move towards the object
+    this.pos.x += toX * this.speed;
+    this.pos.y += toY * this.speed;
+  };
+
+  /**
    * utility function (we might move this somewhere else in the future)
    * returns opposite direction
    * @param {Directions2D} dir

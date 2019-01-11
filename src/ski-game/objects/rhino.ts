@@ -4,16 +4,16 @@ export class Rhino extends AnimatedObject {
   public id: string = "rhino";
   public width: number = 100;
   public height: number = 100;
-  public speed: number = 20;
+  public speed: number = 6;
 
-  protected runAnimation: Animation = {
+  public runAnimation: Animation = {
     images: ["img/rhino_run_left.png", "img/rhino_run_left_2.png"],
     speed: 150,
     repeat: true,
     running: false
   };
 
-  protected eatAnimation: Animation = {
+  public eatAnimation: Animation = {
     images: [
       "img/rhino_lift.png",
       "img/rhino_lift_mouth_open.png",
@@ -27,15 +27,15 @@ export class Rhino extends AnimatedObject {
     running: false
   };
 
-  public init = () => {
-    this.addAnimation("run", this.runAnimation);
-    this.addAnimation("eat", this.eatAnimation);
-  };
-
+  /**
+   * move towards the player
+   */
   public moveToPlayer = () => {
     this.startAnimation("run");
     const player = this.getObjectInstance("player");
-
+    if (player) {
+      this.moveTo(player.pos);
+    }
   };
 
   public update = () => {

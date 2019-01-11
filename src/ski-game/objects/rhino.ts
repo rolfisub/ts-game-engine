@@ -5,9 +5,10 @@ export class Rhino extends AnimatedObject {
   public id: string = "rhino";
   public width: number = 100;
   public height: number = 100;
-  public speed: number = 6;
+  public speed: number = 7;
   public moving: boolean = false;
   public playerFound: boolean = false;
+
 
   public runAnimation: Animation = {
     images: ["img/rhino_run_left.png", "img/rhino_run_left_2.png"],
@@ -46,8 +47,7 @@ export class Rhino extends AnimatedObject {
   public killPlayer = () => {
     const player = this.getObjectInstance("player") as Player;
     if (player) {
-      player.isAlive = false;
-      player.updateImageTo("");
+      player.killPlayer();
     }
   };
 

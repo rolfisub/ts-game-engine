@@ -218,10 +218,18 @@ export class Player extends GameObject {
   };
 
   /**
+   * kills the player
+   */
+  public killPlayer = () => {
+    this.isAlive = false;
+    this.updateImageTo("");
+  };
+
+  /**
    * update method
    */
   public update = () => {
-    if(this.isAlive) {
+    if (this.isAlive) {
       this.setDirectionFromKeyStates();
       this.setImageFromDirection();
       //check for collision

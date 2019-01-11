@@ -9,7 +9,8 @@ enum IMAGES {
   DOWN_LEFT = "img/skier_left_down.png",
   RIGHT = "img/skier_right.png",
   DOWN_RIGHT = "img/skier_right_down.png",
-  CRASH = "img/skier_crash.png"
+  CRASH = "img/skier_crash.png",
+  DEAD = ""
 }
 
 export class Player extends GameObject {
@@ -23,6 +24,12 @@ export class Player extends GameObject {
     right: false,
     left: false
   };
+
+  /**
+   * is player alive?
+   * @type {boolean}
+   */
+  public isAlive: boolean = true;
 
   /**
    * handle key down
@@ -214,14 +221,16 @@ export class Player extends GameObject {
    * update method
    */
   public update = () => {
-    this.setDirectionFromKeyStates();
-    this.setImageFromDirection();
-    //check for collision
-    this.updatePlayerOnCollision();
-    //move obstacles
-    this.moveObjectsInOppositeDirection("obs");
-    //move rhino
-    this.moveObjectsInOppositeDirection("rhino");
+    if(this.isAlive) {
+      this.setDirectionFromKeyStates();
+      this.setImageFromDirection();
+      //check for collision
+      this.updatePlayerOnCollision();
+      //move obstacles
+      this.moveObjectsInOppositeDirection("obs");
+      //move rhino
+      this.moveObjectsInOppositeDirection("rhino");
+    }
   };
 }
 

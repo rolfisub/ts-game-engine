@@ -1,10 +1,13 @@
 import { AnimatedObject, Animation } from "../../engine/animatedObject";
+import { Player } from "./player";
 
 export class Rhino extends AnimatedObject {
   public id: string = "rhino";
   public width: number = 100;
   public height: number = 100;
   public speed: number = 6;
+  public moving: boolean = false;
+  public playerFound: boolean = false;
 
   public runAnimation: Animation = {
     images: ["img/rhino_run_left.png", "img/rhino_run_left_2.png"],
@@ -31,18 +34,38 @@ export class Rhino extends AnimatedObject {
    * move towards the player
    */
   public moveToPlayer = () => {
-    this.startAnimation("run");
     const player = this.getObjectInstance("player");
     if (player) {
       this.moveTo(player.pos);
     }
   };
 
+  /**
+   * kills the player
+   */
+  public killPlayer = () => {
+    const player = this.getObjectInstance("player") as Player;
+    if (player) {
+      player.isAlive = false;
+      player.updateImageTo("");
+    }
+  };
+
   public update = () => {
-    if(!this.isCollisionWith("player")) {
+    if (!this.playerFound && this.moving) {
       this.moveToPlayer();
-    } else {
-      this.startAnimation("eat");
+      if (this.isCollisionWith("player")) {
+        this.stopCurrentAnimation();
+        this.playerFound = true;
+        this.moving = false;
+        this.killPlayer();
+        setTimeout(() => {
+          this.startAnimation("eat");
+        }, 500);
+      }
+    } else if (!this.moving && !this.playerFound) {
+      this.moving = true;
+      this.startAnimation("run");
     }
   };
 }

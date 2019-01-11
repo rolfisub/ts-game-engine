@@ -188,8 +188,8 @@ export class Player extends GameObject {
   /**
    * moves obstacles relative to the player
    */
-  public moveObstacles = () => {
-    const obs = this.getObjectsById("obs");
+  public moveObjectsInOppositeDirection = (objectId: string) => {
+    const obs = this.getObjectsById(objectId);
     if (obs) {
       const oppDir = this.getOppositeDirectionFrom(this.direction);
       obs.forEach(o => {
@@ -248,7 +248,9 @@ export class Player extends GameObject {
     //check for collision
     this.updatePlayerOnCollision();
     //move obstacles
-    this.moveObstacles();
+    this.moveObjectsInOppositeDirection("obs");
+    //move rhino
+    this.moveObjectsInOppositeDirection("rhino");
   };
 }
 
@@ -257,8 +259,8 @@ export const player = new Player();
 player.id = "player";
 //center screen
 player.pos = {
-  x: window.innerWidth/2,
-  y: window.innerHeight/2
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2
 };
 player.height = 50;
 player.width = 50;

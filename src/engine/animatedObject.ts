@@ -17,6 +17,9 @@ export class AnimatedObject extends GameObject {
   public animationKey: string;
 
   public startAnimation = (key: string) => {
+    if(this.animationKey !== key) {
+      this.stopCurrentAnimation();
+    }
     const animation = this.animations[key];
     if (animation) {
       if (!animation.running) {
@@ -41,7 +44,6 @@ export class AnimatedObject extends GameObject {
 
   public stopCurrentAnimation = () => {
     clearInterval(this.animationInterval);
-
   };
 
   public addAnimation = (key: string, a: Animation) => {

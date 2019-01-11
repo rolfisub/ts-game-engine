@@ -1,4 +1,4 @@
-import { AnimatedObject } from "../../engine/animatedObject";
+import { AnimatedObject } from "../../../engine/animatedObject";
 
 enum IMAGES {
   run1 = "img/rhino_run_left.png",
@@ -11,18 +11,23 @@ enum IMAGES {
   eat6 = "img/rhino_lift_eat_4.png"
 }
 
-class Test extends AnimatedObject {
+class AnimationTest extends AnimatedObject {
   public update = () => {
     this.startAnimation("test2");
   };
 }
 
-export const testAnimation = new Test();
+export const testAnimation = new AnimationTest();
+
+testAnimation.id = "rhino";
 
 testAnimation.pos = {
   x: 200,
   y: 200
 };
+
+testAnimation.width = 100;
+testAnimation.height = 100;
 
 testAnimation.addAnimation("test", {
   images: [IMAGES.run1, IMAGES.run2],

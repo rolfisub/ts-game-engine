@@ -9,7 +9,7 @@ export class GameObject {
   public width: number = 50;
   public height: number = 50;
   public pos: Vector2D = { x: 50, y: 50 };
-  public imgsrc: string | string[] = "";
+  public imgsrc: string[] = [];
   public speed: number = 1;
   public direction: Directions2D = Directions2D.NONE;
   public renderPriority: number = 1;

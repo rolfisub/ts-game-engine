@@ -119,16 +119,11 @@ export class Game {
   };
 
   /**
-   * load an image in to memory or an array of images
-   * @param {string | string[]} imgsrc
+   * load an array of images in to memory
+   * @param {string[]} imgsrc
    */
-  private loadImage = (imgsrc: string | string[]) => {
-    if (_.isString(imgsrc)) {
-      if (imgsrc && !this.images[imgsrc]) {
-        this.images[imgsrc] = new Image();
-        this.images[imgsrc].src = imgsrc;
-      }
-    } else if (_.isArray(imgsrc)) {
+  private loadImage = (imgsrc: string[]) => {
+    if (_.isArray(imgsrc)) {
       imgsrc.forEach(isrc => {
         if (isrc && !this.images[isrc]) {
           this.images[isrc] = new Image();

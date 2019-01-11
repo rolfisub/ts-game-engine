@@ -12,12 +12,20 @@ type AnimationStore = {
 };
 
 export class AnimatedObject extends GameObject {
-  public animations: AnimationStore = {};
-  public animationInterval: number;
-  public animationKey: string;
+  /**
+   * animations store
+   * @type {{}}
+   */
+  protected animations: AnimationStore = {};
+  protected animationInterval: number;
+  protected animationKey: string;
 
+  /**
+   * starts an animation by name
+   * @param {string} key
+   */
   public startAnimation = (key: string) => {
-    if(this.animationKey !== key) {
+    if (this.animationKey !== key) {
       this.stopCurrentAnimation();
     }
     const animation = this.animations[key];
@@ -42,10 +50,18 @@ export class AnimatedObject extends GameObject {
     }
   };
 
+  /**
+   * stops the current animation process
+   */
   public stopCurrentAnimation = () => {
     clearInterval(this.animationInterval);
   };
 
+  /**
+   * adds an animation to the game object
+   * @param {string} key
+   * @param {Animation} a
+   */
   public addAnimation = (key: string, a: Animation) => {
     if (a) {
       this.animations[key] = a;

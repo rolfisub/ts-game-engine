@@ -1,8 +1,8 @@
-#Typescript Game Engine #
+# Typescript Game Engine #
 This project is a basic game engine written in typescript, it uses canvas for rendering images and it has very basic functionality.
 
 The engine code is designed so that we can expand on the built in functionality, but provides the basics for rendering and 
-managing a small to medium size game.
+managing a small size game.
 
 ## API Docs: ##
 
@@ -138,6 +138,25 @@ dog.stopAnimation();
 
 These are the basics for the game engine. I will provide more documentation in the near future but I suggest that you explore the engine classes and its method implementations as they are self descriptive.
 
-If you run in to any issues and would like to ask me a question: rolfisub@gmail.com
+## Example Game: ##
+
+To run the example ski game do:
+
+<pre>
+1. yarn install or npm install
+
+2. yarn dev or npm run dev
+
+</pre>
+
+## TODO: ##
+
+1. Add sound management.
+2. Create or integrate physics engine.
+3. Add support for WebGL.
+4. Better Documentation. 
+5. Any Suggestions?
+
+If you would like to contact me: rolfisub@gmail.com
 
 Thanks!

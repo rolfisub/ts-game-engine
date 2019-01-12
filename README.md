@@ -154,9 +154,10 @@ To run the example ski game do:
 1. Add sound management.
 2. Create or integrate physics engine.
 3. Add support for WebGL.
-4. Better Documentation. 
-5. Any Suggestions?
+4. Unit tests.
+5. Better Documentation. 
+6. Any Suggestions?
 
-If you would like to contact me: rolfisub@gmail.com
+If you would like to contact me: rolfisub@gmail.com you can also create a pull request if you like to contribute.
 
 Thanks!

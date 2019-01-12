@@ -58,8 +58,8 @@ export class Rhino extends AnimatedObject {
         this.stopCurrentAnimation();
         this.playerFound = true;
         this.moving = false;
-        this.killPlayer();
         setTimeout(() => {
+          this.killPlayer();
           this.startAnimation("eat");
         }, 100);
       }

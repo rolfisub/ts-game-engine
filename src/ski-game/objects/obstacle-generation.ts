@@ -99,4 +99,4 @@ class ObstacleGeneration extends GameObject {
 }
 
 const og = new ObstacleGeneration();
-export const obstacleGeneration = og;
+export const obstacleGenerator = og;

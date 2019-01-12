@@ -208,7 +208,7 @@ export class Player extends GameObject {
   /**
    * updates the player when a collision is detected
    */
-  public updatePlayerOnCollision = () => {
+  public updatePlayerOnCollisionWithObstacle = () => {
     if (this.isCollisionWith("obs")) {
       setTimeout(() => {
         this.direction = Directions2D.NONE;
@@ -226,6 +226,18 @@ export class Player extends GameObject {
   };
 
   /**
+   * moves all objects around based on my direction
+   */
+  public moveWorldAroundMe = () => {
+    //move obstacles
+    this.moveObjectsInOppositeDirection("obs");
+    //move rhino
+    this.moveObjectsInOppositeDirection("rhino");
+    //move ramps
+    this.moveObjectsInOppositeDirection("ramp");
+  };
+
+  /**
    * update method
    */
   public update = () => {
@@ -233,11 +245,9 @@ export class Player extends GameObject {
       this.setDirectionFromKeyStates();
       this.setImageFromDirection();
       //check for collision
-      this.updatePlayerOnCollision();
-      //move obstacles
-      this.moveObjectsInOppositeDirection("obs");
-      //move rhino
-      this.moveObjectsInOppositeDirection("rhino");
+      this.updatePlayerOnCollisionWithObstacle();
+      //move
+      this.moveWorldAroundMe();
     }
   };
 }

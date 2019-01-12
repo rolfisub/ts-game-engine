@@ -61,7 +61,7 @@ export class Rhino extends AnimatedObject {
         this.killPlayer();
         setTimeout(() => {
           this.startAnimation("eat");
-        }, 500);
+        }, 100);
       }
     } else if (!this.moving && !this.playerFound) {
       this.moving = true;

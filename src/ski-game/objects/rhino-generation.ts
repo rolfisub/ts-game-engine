@@ -5,8 +5,8 @@ import { Directions2D } from "../../engine/common";
 
 class RhinoGeneration extends GameObject {
   public secondsToWait: number = 5;
-  private lastPlayerIdle: number;
-  private lastPlayerMove: number;
+  private lastPlayerIdle: number = Date.now();
+  private lastPlayerMove: number = Date.now();
   private rhinoDeployed: boolean = false;
 
   /**
@@ -59,7 +59,7 @@ class RhinoGeneration extends GameObject {
 
     r.pos = {
       x: game.width + 200,
-      y: player.pos.y + 300
+      y: player.pos.y
     };
     r.addAnimation("run", r.runAnimation);
     r.addAnimation("eat", r.eatAnimation);

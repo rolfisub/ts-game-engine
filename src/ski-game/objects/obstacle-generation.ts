@@ -4,7 +4,7 @@ import { Directions2D } from "../../engine/common";
 
 class ObstacleGeneration extends GameObject {
   private obs = new Obstacle();
-  private maxGenerated: number = 5;
+  private maxGenerated: number = 10;
   private hiddenArea: number = 500;
 
   /**

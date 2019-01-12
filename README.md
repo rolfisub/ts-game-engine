@@ -1,4 +1,4 @@
-#Typescript Game Engine #
+# Typescript Game Engine #
 This project is a basic game engine written in typescript, it uses canvas for rendering images and it has very basic functionality.
 
 The engine code is designed so that we can expand on the built in functionality, but provides the basics for rendering and 

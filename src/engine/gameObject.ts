@@ -121,6 +121,54 @@ export class GameObject {
   };
 
   /**
+   * checks if this object collides with any other group of objects
+   */
+  public isCollisionWith = (objectId: string): boolean => {
+    const obs = this.getObjectsById(objectId);
+    const game = this.getGameInstance();
+    if (obs) {
+      const inScreen = obs.filter(o => {
+        return (
+          o.pos.x > 0 &&
+          o.pos.x < game.width &&
+          o.pos.y > 0 &&
+          o.pos.y < game.height
+        );
+      });
+      const cal = 10;
+      const colliding = inScreen.filter(o => {
+        return (
+          this.pos.x + cal < o.pos.x + o.width &&
+          this.pos.x + this.width - cal > o.pos.x &&
+          this.pos.y + cal < o.pos.y + o.height &&
+          this.pos.y + this.height - cal > o.pos.y
+        );
+      });
+      return colliding.length > 0;
+    }
+    return false;
+  };
+
+  /**
+   * move object to a vector
+   * @param {Vector2D} to
+   */
+  public moveTo = (to: Vector2D) => {
+    //calculate direction
+    let toX = to.x - this.pos.x;
+    let toY = to.y - this.pos.y;
+
+    //normalize
+    const toObjLength = Math.sqrt(toX * toX + toY * toY);
+    toX /= toObjLength;
+    toY /= toObjLength;
+
+    //Move towards the object
+    this.pos.x += toX * this.speed;
+    this.pos.y += toY * this.speed;
+  };
+
+  /**
    * utility function (we might move this somewhere else in the future)
    * returns opposite direction
    * @param {Directions2D} dir

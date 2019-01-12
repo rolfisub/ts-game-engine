@@ -9,7 +9,8 @@ enum IMAGES {
   DOWN_LEFT = "img/skier_left_down.png",
   RIGHT = "img/skier_right.png",
   DOWN_RIGHT = "img/skier_right_down.png",
-  CRASH = "img/skier_crash.png"
+  CRASH = "img/skier_crash.png",
+  DEAD = ""
 }
 
 export class Player extends GameObject {
@@ -23,6 +24,12 @@ export class Player extends GameObject {
     right: false,
     left: false
   };
+
+  /**
+   * is player alive?
+   * @type {boolean}
+   */
+  public isAlive: boolean = true;
 
   /**
    * handle key down
@@ -202,7 +209,7 @@ export class Player extends GameObject {
    * updates the player when a collision is detected
    */
   public updatePlayerOnCollision = () => {
-    if (this.obstacleCollision()) {
+    if (this.isCollisionWith("obs")) {
       setTimeout(() => {
         this.direction = Directions2D.NONE;
         this.updateImageTo(IMAGES.CRASH);
@@ -211,46 +218,27 @@ export class Player extends GameObject {
   };
 
   /**
-   * checks if player collides with any obstacle
+   * kills the player
    */
-  public obstacleCollision = (): boolean => {
-    const obs = this.getObjectsById("obs");
-    const game = this.getGameInstance();
-    if (obs) {
-      const inScreen = obs.filter(o => {
-        return (
-          o.pos.x > 0 &&
-          o.pos.x < game.width &&
-          o.pos.y > 0 &&
-          o.pos.y < game.height
-        );
-      });
-      const cal = 10;
-      const colliding = inScreen.filter(o => {
-        return (
-          this.pos.x + cal < o.pos.x + o.width &&
-          this.pos.x + this.width - cal > o.pos.x &&
-          this.pos.y + cal < o.pos.y + o.height &&
-          this.pos.y + this.height - cal > o.pos.y
-        );
-      });
-      return colliding.length > 0;
-    }
-    return false;
+  public killPlayer = () => {
+    this.isAlive = false;
+    this.updateImageTo("");
   };
 
   /**
    * update method
    */
   public update = () => {
-    this.setDirectionFromKeyStates();
-    this.setImageFromDirection();
-    //check for collision
-    this.updatePlayerOnCollision();
-    //move obstacles
-    this.moveObjectsInOppositeDirection("obs");
-    //move rhino
-    this.moveObjectsInOppositeDirection("rhino");
+    if (this.isAlive) {
+      this.setDirectionFromKeyStates();
+      this.setImageFromDirection();
+      //check for collision
+      this.updatePlayerOnCollision();
+      //move obstacles
+      this.moveObjectsInOppositeDirection("obs");
+      //move rhino
+      this.moveObjectsInOppositeDirection("rhino");
+    }
   };
 }
 

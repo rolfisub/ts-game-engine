@@ -13,7 +13,7 @@ you will need to specify the canvas element id or class. (It uses Jquery selecto
 
 By default the game class will try to cover all of the available screen.
 
-<pre>
+```typescript
 import { Game } from "../engine/game";
 
 //attach the game instance to a canvas element id = "canvas"
@@ -24,8 +24,7 @@ game.init();
 
 //start game loop
 requestAnimationFrame(game.gameLoop);
-
-</pre>
+```
 
 At this point you will need to start adding game objects so that you can start rendering something.
 
@@ -45,7 +44,7 @@ You can override both if you want to, but they already come with a prebuilt func
 
 Example:
 
-<pre>
+```typescript
 import { GameObject } from "../../engine/gameObject";
 
 class Player extends GameObject {
@@ -70,8 +69,7 @@ player.height = 100;
 
 //then on game.ts:
 game.addObject(player);
-
-</pre>
+```
 
 At this point, you will have a player that is rendered on the screen and that if you press any arrow key it will move.
 
@@ -84,7 +82,7 @@ This class was created to render animated objects it is an extension of the Game
 An example to create an animated object and to start an animation will be:
 
 
-<pre>
+```typescript
 import { AnimatedObject, Animation } from "../../engine/animatedObject";
 
 class Dog extends AnimatedObject {
@@ -133,8 +131,8 @@ dog.startAnimation("bark");
 
 //to stop an animation it stops the current animation
 dog.stopAnimation();
+```
 
-</pre>
 
 These are the basics for the game engine. I will provide more documentation in the near future but I suggest that you explore the engine classes and its method implementations as they are self descriptive.
 

@@ -140,10 +140,18 @@ These are the basics for the game engine. I will provide more documentation in t
 
 To run the example ski game do:
 
-<pre>
-1. yarn install or npm install
+```bash
+#step 1
+yarn install 
+  #OR
+npm install
 
-2. yarn dev or npm run dev
+#step 2
+yarn dev 
+  #OR
+npm run dev
+```
+
 
 </pre>
 

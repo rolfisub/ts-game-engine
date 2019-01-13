@@ -5,13 +5,13 @@ const webpack = require("webpack");
 
 
 module.exports = {
-  //mode: "production",
-  mode: "development",
+  mode: "production",
+//  mode: "development",
   entry: "./src/index.ts",
   output: {
     filename: "bundle.js",
     path: path.resolve("./build"),
-    publicPath: "/"
+    publicPath: ""
   },
   devServer: {
     contentBase:'./build',
@@ -30,13 +30,13 @@ module.exports = {
   },
   plugins: [
     new HtmlPlugin({
-      template: "./src/public/index.html",
+      template: "./src/ski-game/public/index.html",
       filename: "index.html"
     }),
     new webpack.HotModuleReplacementPlugin(),
     new CopyPlugin([
       {
-        from: 'src/public/img',
+        from: 'src/ski-game/public/img',
         to:'img'
       }
     ])

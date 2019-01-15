@@ -87,15 +87,6 @@ class ObstacleGeneration extends GameObject {
     return null;
   };
 
-  /**
-   * gets a random integer from a range
-   * @param {number} min
-   * @param {number} max
-   * @returns {number}
-   */
-  private getRandomInteger = (min: number, max: number): number => {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
 }
 
 const og = new ObstacleGeneration();

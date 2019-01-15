@@ -1,6 +1,6 @@
-import { GameObject } from "../../engine/gameObject";
 import { COMMON_KEY_CODES, Directions2D } from "../../engine/common";
 import * as $ from "jquery";
+import { AnimatedObject, Animation } from "../../engine/animatedObject";
 
 enum IMAGES {
   UP = "img/skier_right.png",
@@ -13,7 +13,13 @@ enum IMAGES {
   DEAD = ""
 }
 
-export class Player extends GameObject {
+enum PlayerState {
+  Standing,
+  Moving,
+  Jumping
+}
+
+export class Player extends AnimatedObject {
   /**
    * keep track of keys pressed
    * @type object
@@ -30,6 +36,45 @@ export class Player extends GameObject {
    * @type {boolean}
    */
   public isAlive: boolean = true;
+
+  /**
+   * Current Player State
+   * @type {PlayerState}
+   */
+  public playerState: PlayerState = PlayerState.Standing;
+
+  /**
+   * describes player jumping animation
+   * @type {Animation}
+   */
+  public jumpingAnimation: Animation = {
+    images: [
+      "img/skier_jump_1.png",
+      "img/skier_jump_2.png",
+      "img/skier_jump_3.png",
+      "img/skier_jump_4.png"
+      // "img/skier_jump_5.png"
+    ],
+    speed: 500,
+    repeat: false,
+    running: false,
+    start: () => {
+      this.playerState = PlayerState.Jumping;
+      this.direction = Directions2D.DOWN;
+      this.solid = false;
+      this.width = 65;
+      this.height = 65;
+      this.speed = 10;
+    },
+    done: () => {
+      this.playerState = PlayerState.Moving;
+      this.direction = Directions2D.DOWN;
+      this.solid = true;
+      this.width = 50;
+      this.height = 50;
+      this.speed = 8;
+    }
+  };
 
   /**
    * handle key down
@@ -93,6 +138,9 @@ export class Player extends GameObject {
    * TODO: Improve this method
    */
   public setDirectionFromKeyStates = () => {
+    if (this.playerState === PlayerState.Jumping) {
+      return;
+    }
     if (this.keyStates.down) {
       this.direction = Directions2D.DOWN;
     }
@@ -160,6 +208,9 @@ export class Player extends GameObject {
    * change the image
    */
   public setImageFromDirection = () => {
+    if (this.playerState === PlayerState.Jumping) {
+      return;
+    }
     switch (this.direction) {
       case Directions2D.RIGHT: {
         this.updateImageTo(IMAGES.RIGHT);
@@ -222,7 +273,8 @@ export class Player extends GameObject {
    */
   public killPlayer = () => {
     this.isAlive = false;
-    this.updateImageTo("");
+    this.updateImageTo(IMAGES.DEAD);
+    this.stopCurrentAnimation();
   };
 
   /**
@@ -238,6 +290,29 @@ export class Player extends GameObject {
   };
 
   /**
+   * switches between moving and standing
+   */
+  public updatePlayerState = () => {
+    if (this.playerState !== PlayerState.Jumping) {
+      if (this.direction === Directions2D.NONE) {
+        this.playerState = PlayerState.Standing;
+      } else {
+        this.playerState = PlayerState.Moving;
+      }
+    }
+  };
+
+  public jump = () => {
+    console.log(this.playerState, this.isCollisionWith("ramp"));
+    if (
+      this.isCollisionWith("ramp") &&
+      this.playerState !== PlayerState.Jumping
+    ) {
+      this.startAnimation("jump");
+    }
+  };
+
+  /**
    * update method
    */
   public update = () => {
@@ -248,6 +323,10 @@ export class Player extends GameObject {
       this.updatePlayerOnCollisionWithObstacle();
       //move
       this.moveWorldAroundMe();
+      //
+      this.updatePlayerState();
+      //
+      this.jump();
     }
   };
 }
@@ -273,5 +352,7 @@ player.imgsrc = [
   IMAGES.RIGHT,
   IMAGES.CRASH
 ];
+player.addAnimation("jump", player.jumpingAnimation);
+
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

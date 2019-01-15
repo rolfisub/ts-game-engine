@@ -5,6 +5,8 @@ export interface Animation {
   speed: number;
   repeat: boolean;
   running: boolean;
+  start?: () => void;
+  done?: () => void;
 }
 
 type AnimationStore = {
@@ -33,18 +35,26 @@ export class AnimatedObject extends GameObject {
       if (!animation.running) {
         let index = 0;
         this.animationKey = key;
+        this.updateImageTo(animation.images[index]);
+        if (animation.start) {
+          animation.start();
+        }
         this.animationInterval = setInterval(() => {
+          index++;
           animation.running = true;
           if (index >= animation.images.length) {
             if (animation.repeat) {
               index = 0;
             } else {
+              if (animation.done) {
+                animation.done();
+              }
               clearInterval(this.animationInterval);
+              animation.running = false;
               return;
             }
           }
           this.updateImageTo(animation.images[index]);
-          index++;
         }, animation.speed);
       }
     }

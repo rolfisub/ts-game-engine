@@ -176,6 +176,16 @@ export class GameObject {
   };
 
   /**
+   * gets a random integer from a range
+   * @param {number} min
+   * @param {number} max
+   * @returns {number}
+   */
+  protected getRandomInteger = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min) + min);
+  };
+
+  /**
    * utility function (we might move this somewhere else in the future)
    * returns opposite direction
    * @param {Directions2D} dir

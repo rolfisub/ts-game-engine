@@ -5,7 +5,8 @@ import { Directions2D } from "../../engine/common";
 class RampGeneration extends GameObject {
   private maxGenerated = 1;
   private hiddenArea = 500;
-  private minTimeframe = 5000;
+  private lastGenerated: number = Date.now();
+  private generationInterval: number = 5000;
 
   public update = () => {
     this.generateRamp();
@@ -19,9 +20,10 @@ class RampGeneration extends GameObject {
         (player.direction === Directions2D.DOWN_LEFT ||
           player.direction === Directions2D.DOWN_RIGHT ||
           player.direction === Directions2D.DOWN) &&
-        this.hasPlayerGoingDownMinTimeframe()
+        this.hasTimeframePassed()
       ) {
         const o = this.createRamp();
+        this.lastGenerated = Date.now();
         if (o) {
           this.addObject(o);
         }
@@ -29,9 +31,8 @@ class RampGeneration extends GameObject {
     }
   };
 
-  public hasPlayerGoingDownMinTimeframe = (): boolean => {
-    //TODO: need to check if enough time has passed
-    return true;
+  public hasTimeframePassed = (): boolean => {
+    return Date.now() > this.lastGenerated + this.generationInterval;
   };
 
   public getRampGeneratedCount = (): number => {

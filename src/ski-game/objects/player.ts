@@ -274,6 +274,7 @@ export class Player extends AnimatedObject {
   public killPlayer = () => {
     this.isAlive = false;
     this.updateImageTo(IMAGES.DEAD);
+    this.playerState = PlayerState.Standing;
     this.stopCurrentAnimation();
   };
 

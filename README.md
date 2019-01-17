@@ -104,7 +104,24 @@ class Dog extends AnimatedObject {
         //repeat animation?
         repeat: false,
         //is animation running?
-        running: false
+        running: false,
+        //script to run before animation starts (Optional)
+        start: () => {
+          //change something before running
+          //make dog 2 times bigger
+          this.height *= 2;
+          this.width *= 2;
+          this.speed = 50;
+        },
+        //script to run when animatio ends (Optional)
+        //only runs if repeat = false
+        done: () => {
+          //revert changes?
+          //make dog previus size
+          this.height /= 2;
+          this.width /= 2;
+          this.speed = 25;
+        }
     };
     
 }
@@ -122,6 +139,7 @@ const barkAnimation: Animation = {
     speed: 200,   
     repeat: true,    
     running: false
+    
 };
 
 dog.addAnimation("bark", barkAnimation);

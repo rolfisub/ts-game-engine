@@ -13,6 +13,7 @@ export class GameObject {
   public speed: number = 1;
   public direction: Directions2D = Directions2D.NONE;
   public renderPriority: number = 1;
+  public solid: boolean = true;
 
   /**
    * game API
@@ -124,6 +125,9 @@ export class GameObject {
    * checks if this object collides with any other group of objects
    */
   public isCollisionWith = (objectId: string): boolean => {
+    if (!this.solid) {
+      return false;
+    }
     const obs = this.getObjectsById(objectId);
     const game = this.getGameInstance();
     if (obs) {
@@ -144,7 +148,10 @@ export class GameObject {
           this.pos.y + this.height - cal > o.pos.y
         );
       });
-      return colliding.length > 0;
+      const solidsColliding = colliding.filter(o => {
+        return o.solid;
+      });
+      return solidsColliding.length > 0;
     }
     return false;
   };
@@ -166,6 +173,16 @@ export class GameObject {
     //Move towards the object
     this.pos.x += toX * this.speed;
     this.pos.y += toY * this.speed;
+  };
+
+  /**
+   * gets a random integer from a range
+   * @param {number} min
+   * @param {number} max
+   * @returns {number}
+   */
+  protected getRandomInteger = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min) + min);
   };
 
   /**

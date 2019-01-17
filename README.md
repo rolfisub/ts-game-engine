@@ -113,7 +113,7 @@ class Dog extends AnimatedObject {
           this.width *= 2;
           this.speed = 50;
         },
-        //script to run when animatio ends (Optional)
+        //script to run when animation ends (Optional)
         //only runs if repeat = false
         done: () => {
           //revert changes?

@@ -1,6 +1,7 @@
 import { GameObject } from "./gameObject";
 import * as $ from "jquery";
 import * as _ from "lodash";
+import { Vector2D } from "./common";
 
 export class Game {
   public width: number;
@@ -36,6 +37,7 @@ export class Game {
         height: this.height + "px",
         border: "1px solid"
       })[0];
+    $(this.el).on("click", this.handleMouseClick);
     this.ctx = this.canvas.getContext("2d");
     this.objects.forEach(o => {
       this.initObject(o);
@@ -72,6 +74,38 @@ export class Game {
   };
 
   /**
+   * gets an image resource
+   * @param {string} src
+   * @returns {any}
+   */
+  protected getImage = (src: string) => this.images[src];
+
+  /**
+   * gets an instance of an object, the first one found
+   * @param {string} id
+   * @returns {any}
+   */
+  protected getObjectInstance = (id: string): GameObject | undefined =>
+    this.objects.find(obj => {
+      return obj.id === id;
+    });
+
+  /**
+   * gets a list of objects that match an id
+   * @param {string} id
+   * @returns {GameObject[] | undefined}
+   */
+  protected getObjectsById = (id: string): GameObject[] | undefined => {
+    const res = this.objects.filter(obj => {
+      return obj.id === id;
+    });
+    if (res.length > 0) {
+      return res;
+    }
+    return undefined;
+  };
+
+  /**
    * initializes an object
    * @param {GameObject} o
    */
@@ -86,20 +120,9 @@ export class Game {
    * @param {GameObject} o
    */
   private injectGameApi = (o: GameObject) => {
-    o.getImage = src => this.images[src];
-    o.getObjectInstance = (id: string) =>
-      this.objects.find(obj => {
-        return obj.id === id;
-      });
-    o.getObjectsById = (id: string) => {
-      const res = this.objects.filter(obj => {
-        return obj.id === id;
-      });
-      if (res.length > 0) {
-        return res;
-      }
-      return undefined;
-    };
+    o.getImage = this.getImage;
+    o.getObjectInstance = this.getObjectInstance;
+    o.getObjectsById = this.getObjectsById;
     o.addObject = this.addObject;
     o.getGameInstance = () => this;
   };
@@ -131,5 +154,34 @@ export class Game {
         }
       });
     }
+  };
+
+  /**
+   * gets objects that their area is on x,y
+   * @param {Vector2D} pos
+   * @returns {GameObject[]}
+   */
+  private getObjectsInPos = (pos: Vector2D): GameObject[] => {
+    return this.objects.filter(o => {
+      return (
+        pos.x >= o.pos.x &&
+        pos.x <= o.pos.x + o.width &&
+        pos.y >= o.pos.y &&
+        pos.y <= o.pos.y + o.height
+      );
+    });
+  };
+
+  /**
+   * pass event to game objects located in xy
+   * @param event
+   */
+  private handleMouseClick = event => {
+    const objs = this.getObjectsInPos({
+      x: event.offsetX,
+      y: event.offsetY
+    });
+
+    objs.forEach(o => o.onClick(event));
   };
 }

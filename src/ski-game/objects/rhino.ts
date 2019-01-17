@@ -68,4 +68,12 @@ export class Rhino extends AnimatedObject {
       this.startAnimation("run");
     }
   };
+
+  /**
+   * if you click on the rhino you get to restart the game
+   * this is a test for mouse events
+   */
+  public onClick = () => {
+    document.location.reload();
+  }
 }

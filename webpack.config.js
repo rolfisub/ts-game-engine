@@ -18,6 +18,7 @@ switch (argv.mode) {
 module.exports = {
   mode,
   entry: "./src/index.ts",
+  devtool: mode === "development" ? "eval" : "sourcemap",
   output: {
     filename: "bundle.js",
     path: path.resolve("./build"),

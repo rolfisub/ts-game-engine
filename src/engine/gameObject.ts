@@ -176,6 +176,14 @@ export class GameObject {
   };
 
   /**
+   * function to handle click event
+   * @param event
+   */
+  public onClick = (event) => {
+    //by default do nothing
+  };
+
+  /**
    * gets a random integer from a range
    * @param {number} min
    * @param {number} max

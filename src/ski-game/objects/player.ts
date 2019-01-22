@@ -304,7 +304,6 @@ export class Player extends AnimatedObject {
   };
 
   public jump = () => {
-    console.log(this.playerState, this.isCollisionWith("ramp"));
     if (
       this.isCollisionWith("ramp") &&
       this.playerState !== PlayerState.Jumping

@@ -2,11 +2,21 @@ const path = require("path");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
+const argv = require("yargs").argv;
 
+let mode = "";
+switch (argv.mode) {
+  case "production": {
+    mode = argv.mode;
+    break;
+  }
+  default: {
+    mode = "development";
+  }
+}
 
 module.exports = {
-//  mode: "production",
-  mode: "development",
+  mode,
   entry: "./src/index.ts",
   output: {
     filename: "bundle.js",
@@ -14,11 +24,11 @@ module.exports = {
     publicPath: ""
   },
   devServer: {
-    contentBase:'./build',
+    contentBase: "./build",
     hot: true
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: [".ts", ".tsx", ".js"]
   },
   module: {
     rules: [
@@ -36,8 +46,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new CopyPlugin([
       {
-        from: 'src/ski-game/public/img',
-        to:'img'
+        from: "src/ski-game/public/img",
+        to: "img"
       }
     ])
   ]

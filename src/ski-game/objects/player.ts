@@ -19,6 +19,10 @@ enum PlayerState {
   Jumping
 }
 
+enum Sounds {
+  CRASH = "assets/sounds/crash.mp3"
+}
+
 export class Player extends AnimatedObject {
   /**
    * keep track of keys pressed
@@ -264,6 +268,7 @@ export class Player extends AnimatedObject {
       setTimeout(() => {
         this.direction = Directions2D.NONE;
         this.updateImageTo(IMAGES.CRASH);
+        this.playSound(Sounds.CRASH);
       }, 150);
     }
   };
@@ -353,6 +358,7 @@ player.imgsrc = [
   IMAGES.CRASH
 ];
 player.addAnimation("jump", player.jumpingAnimation);
+player.soundsrc = [Sounds.CRASH];
 
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

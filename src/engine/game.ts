@@ -7,9 +7,24 @@ export class Game {
   public width: number;
   public height: number;
   public el: string;
+
+  /**
+   * game object store
+   * @type {any[]}
+   */
   public objects: GameObject[] = [];
 
+  /**
+   * image store
+   * @type {{}}
+   */
   private images: object = {};
+  /**
+   * sound store
+   * @type {{}}
+   */
+  private sounds: object = {};
+
   private ctx: CanvasRenderingContext2D | null;
   private canvas: HTMLCanvasElement;
 
@@ -81,6 +96,13 @@ export class Game {
   protected getImage = (src: string) => this.images[src];
 
   /**
+   * gets a sound html element
+   * @param {string} src
+   * @returns {any}
+   */
+  protected getSound = (src: string) => this.sounds[src];
+
+  /**
    * gets an instance of an object, the first one found
    * @param {string} id
    * @returns {any}
@@ -110,7 +132,8 @@ export class Game {
    * @param {GameObject} o
    */
   private initObject = (o: GameObject) => {
-    this.loadImage(o.imgsrc);
+    this.loadImages(o.imgsrc);
+    this.loadSounds(o.soundsrc);
     this.injectGameApi(o);
     o.init();
   };
@@ -121,6 +144,7 @@ export class Game {
    */
   private injectGameApi = (o: GameObject) => {
     o.getImage = this.getImage;
+    o.getSound = this.getSound;
     o.getObjectInstance = this.getObjectInstance;
     o.getObjectsById = this.getObjectsById;
     o.addObject = this.addObject;
@@ -145,12 +169,32 @@ export class Game {
    * load an array of images in to memory
    * @param {string[]} imgsrc
    */
-  private loadImage = (imgsrc: string[]) => {
+  private loadImages = (imgsrc: string[]) => {
     if (_.isArray(imgsrc)) {
       imgsrc.forEach(isrc => {
         if (isrc && !this.images[isrc]) {
           this.images[isrc] = new Image();
           this.images[isrc].src = isrc;
+        }
+      });
+    }
+  };
+
+  /**
+   * loads all the registered sounds and
+   * stores their references in a key => value object
+   * @param {string[]} soundsrc
+   */
+  private loadSounds = (soundsrc: string[]) => {
+    if (_.isArray(soundsrc)) {
+      soundsrc.forEach(ssrc => {
+        if (ssrc && !this.sounds[ssrc]) {
+          this.sounds[ssrc] = new Audio();
+          this.sounds[ssrc].src = ssrc;
+          this.sounds[ssrc].setAttribute("preload", "auto");
+          this.sounds[ssrc].setAttribute("controls", "none");
+          this.sounds[ssrc].style.display = "none";
+          document.body.appendChild(this.sounds[ssrc]);
         }
       });
     }

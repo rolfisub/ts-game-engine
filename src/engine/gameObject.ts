@@ -10,6 +10,7 @@ export class GameObject {
   public height: number = 50;
   public pos: Vector2D = { x: 50, y: 50 };
   public imgsrc: string[] = [];
+  public soundsrc: string[] = [];
   public speed: number = 1;
   public direction: Directions2D = Directions2D.NONE;
   public renderPriority: number = 1;
@@ -23,6 +24,7 @@ export class GameObject {
   public getObjectsById: (id: string) => GameObject[] | undefined;
   public addObject: (GameObject2D) => void;
   public getGameInstance: () => Game;
+  public getSound: (sound) => HTMLAudioElement | undefined;
 
   /**
    * image to be drawn
@@ -45,6 +47,17 @@ export class GameObject {
    */
   public updateImageTo = src => {
     this.image = this.getImage(src);
+  };
+
+  /**
+   * plays a sound from the store
+   * @param src
+   */
+  public playSound = src => {
+    const s = this.getSound(src);
+    if (s) {
+      s.play();
+    }
   };
 
   /**
@@ -179,7 +192,7 @@ export class GameObject {
    * function to handle click event
    * @param event
    */
-  public onClick = (event) => {
+  public onClick = event => {
     //by default do nothing
   };
 

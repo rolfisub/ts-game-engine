@@ -20,7 +20,8 @@ enum PlayerState {
 }
 
 enum Sounds {
-  CRASH = "assets/sounds/crash.mp3"
+  CRASH = "assets/sounds/crash.mp3",
+  MOVE = "assets/sounds/skiing.mp3"
 }
 
 export class Player extends AnimatedObject {
@@ -332,6 +333,16 @@ export class Player extends AnimatedObject {
       this.updatePlayerState();
       //
       this.jump();
+      //
+      this.playSounds();
+    }
+  };
+
+  protected playSounds = () => {
+    if (this.playerState === PlayerState.Moving) {
+      this.playSound(Sounds.MOVE);
+    } else {
+      this.pauseSound(Sounds.MOVE);
     }
   };
 }
@@ -358,7 +369,7 @@ player.imgsrc = [
   IMAGES.CRASH
 ];
 player.addAnimation("jump", player.jumpingAnimation);
-player.soundsrc = [Sounds.CRASH];
+player.soundsrc = [Sounds.CRASH, Sounds.MOVE];
 
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

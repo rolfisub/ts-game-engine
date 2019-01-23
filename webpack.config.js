@@ -20,7 +20,7 @@ if (argv.game) {
   game = argv.game;
 } else {
   throw new Error(
-    "game argument is required. Exaple: yarn dev --game=sky-game "
+    "game argument is required. Example: yarn dev sky-game "
   );
 }
 

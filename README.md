@@ -51,7 +51,7 @@ class Player extends GameObject {
     //list of images to be loaded
     //by default index 0 will be loaded
     public imgsrc = [
-        "path/image1.png"
+        "assets/img/image1.png"
     ];
 } 
 
@@ -93,11 +93,11 @@ class Dog extends AnimatedObject {
     public runAnimation: Animation = {
         //animation frames
         images: [
-          "img/dog_run_1.png",
-          "img/dog_run_2.png",
-          "img/dog_run_3.png",
-          "img/dog_run_4.png",
-          "img/dog_run_5.png"
+          "assets/img/dog_run_1.png",
+          "assets/img/dog_run_2.png",
+          "assets/img/dog_run_3.png",
+          "assets/img/dog_run_4.png",
+          "assets/img/dog_run_5.png"
         ],
         //wait time between frames
         speed: 200,
@@ -133,8 +133,8 @@ dog.addAnimation("run", dog.runAnimation);
 //you can also declare animations outside of the class
 const barkAnimation: Animation = {
     images: [
-      "img/dog_bark_1.png",
-      "img/dog_bark_2.png"
+      "assets/img/dog_bark_1.png",
+      "assets/img/dog_bark_2.png"
     ],
     speed: 200,   
     repeat: true,    
@@ -165,13 +165,10 @@ yarn install
 npm install
 
 #step 2
-yarn dev 
+yarn dev ski-game
   #OR
-npm run dev
+npm run dev ski-game
 ```
-
-
-</pre>
 
 ## TODO: ##
 

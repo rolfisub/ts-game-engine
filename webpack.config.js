@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
@@ -16,12 +17,14 @@ switch (argv.mode) {
 }
 
 let game = "";
-if (argv.game) {
+if (argv.game && typeof argv.game === "string") {
   game = argv.game;
 } else {
-  throw new Error(
-    "game argument is required. Example: yarn dev sky-game "
-  );
+  throw new Error("game parameter is required. Example: yarn dev sky-game ");
+}
+
+if (!fs.existsSync(path.resolve("./src", game))) {
+  throw new Error("game: " + game + " not found.");
 }
 
 module.exports = {

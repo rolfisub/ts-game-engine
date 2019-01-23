@@ -1,10 +1,10 @@
 import { GameObject } from "../../engine/gameObject";
 
 export enum ObstacleIMAGES {
-  rock1 = "img/rock_1.png",
-  rock2 = "img/rock_2.png",
-  tree1 = "img/tree_1.png",
-  tree2 = "img/tree_cluster.png"
+  rock1 = "assets/img/rock_1.png",
+  rock2 = "assets/img/rock_2.png",
+  tree1 = "assets/img/tree_1.png",
+  tree2 = "assets/img/tree_cluster.png"
 }
 
 export class Obstacle extends GameObject {

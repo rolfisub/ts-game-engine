@@ -15,6 +15,15 @@ switch (argv.mode) {
   }
 }
 
+let game = "";
+if (argv.game) {
+  game = argv.game;
+} else {
+  throw new Error(
+    "game argument is required. Exaple: yarn dev --game=sky-game "
+  );
+}
+
 module.exports = {
   mode,
   entry: "./src/index.ts",
@@ -41,14 +50,14 @@ module.exports = {
   },
   plugins: [
     new HtmlPlugin({
-      template: "./src/ski-game/public/index.html",
+      template: "./src/" + game + "/public/index.html",
       filename: "index.html"
     }),
     new webpack.HotModuleReplacementPlugin(),
     new CopyPlugin([
       {
-        from: "src/ski-game/public/img",
-        to: "img"
+        from: "src/" + game + "/public/assets",
+        to: "assets"
       }
     ])
   ]

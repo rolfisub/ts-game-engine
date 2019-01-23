@@ -5,8 +5,8 @@
   "author": "Rolf Bansbach <rolfisub@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --open",
-    "build": "webpack --mode=production"
+    "dev": "webpack-dev-server --open --game",
+    "build": "webpack --mode production --game"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.29",

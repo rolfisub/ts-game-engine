@@ -3,13 +3,13 @@ import * as $ from "jquery";
 import { AnimatedObject, Animation } from "../../engine/animatedObject";
 
 enum IMAGES {
-  UP = "img/skier_right.png",
-  DOWN = "img/skier_down.png",
-  LEFT = "img/skier_left.png",
-  DOWN_LEFT = "img/skier_left_down.png",
-  RIGHT = "img/skier_right.png",
-  DOWN_RIGHT = "img/skier_right_down.png",
-  CRASH = "img/skier_crash.png",
+  UP = "assets/img/skier_right.png",
+  DOWN = "assets/img/skier_down.png",
+  LEFT = "assets/img/skier_left.png",
+  DOWN_LEFT = "assets/img/skier_left_down.png",
+  RIGHT = "assets/img/skier_right.png",
+  DOWN_RIGHT = "assets/img/skier_right_down.png",
+  CRASH = "assets/img/skier_crash.png",
   DEAD = ""
 }
 
@@ -49,10 +49,10 @@ export class Player extends AnimatedObject {
    */
   public jumpingAnimation: Animation = {
     images: [
-      "img/skier_jump_1.png",
-      "img/skier_jump_2.png",
-      "img/skier_jump_3.png",
-      "img/skier_jump_4.png"
+      "assets/img/skier_jump_1.png",
+      "assets/img/skier_jump_2.png",
+      "assets/img/skier_jump_3.png",
+      "assets/img/skier_jump_4.png"
       // "img/skier_jump_5.png"
     ],
     speed: 500,

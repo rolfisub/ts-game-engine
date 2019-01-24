@@ -16,12 +16,15 @@ enum IMAGES {
 enum PlayerState {
   Standing,
   Moving,
-  Jumping
+  Jumping,
+  Crashed,
+  Dead
 }
 
 enum Sounds {
   CRASH = "assets/sounds/crash.mp3",
-  MOVE = "assets/sounds/skiing.mp3"
+  MOVE = "assets/sounds/skiing.mp3",
+  DIE = "assets/sound/scream.mp3"
 }
 
 export class Player extends AnimatedObject {
@@ -280,7 +283,7 @@ export class Player extends AnimatedObject {
   public killPlayer = () => {
     this.isAlive = false;
     this.updateImageTo(IMAGES.DEAD);
-    this.playerState = PlayerState.Standing;
+    this.playerState = PlayerState.Dead;
     this.stopCurrentAnimation();
   };
 

@@ -40,12 +40,6 @@ export class Player extends AnimatedObject {
   };
 
   /**
-   * is player alive?
-   * @type {boolean}
-   */
-  public isAlive: boolean = true;
-
-  /**
    * Current Player State
    * @type {PlayerState}
    */
@@ -209,6 +203,9 @@ export class Player extends AnimatedObject {
         this.direction = Directions2D.NONE;
       }
     }
+    if(this.direction !== Directions2D.NONE){
+      this.playerState = PlayerState.Moving;
+    }
   };
 
   /**
@@ -273,6 +270,7 @@ export class Player extends AnimatedObject {
         this.direction = Directions2D.NONE;
         this.updateImageTo(IMAGES.CRASH);
         this.playSound(Sounds.CRASH);
+        this.playerState = PlayerState.Crashed;
       }, 150);
     }
   };
@@ -281,7 +279,6 @@ export class Player extends AnimatedObject {
    * kills the player
    */
   public killPlayer = () => {
-    this.isAlive = false;
     this.updateImageTo(IMAGES.DEAD);
     this.playerState = PlayerState.Dead;
     this.stopCurrentAnimation();
@@ -299,25 +296,13 @@ export class Player extends AnimatedObject {
     this.moveObjectsInOppositeDirection("ramp");
   };
 
-  /**
-   * switches between moving and standing
-   */
-  public updatePlayerState = () => {
-    if (this.playerState !== PlayerState.Jumping) {
-      if (this.direction === Directions2D.NONE) {
-        this.playerState = PlayerState.Standing;
-      } else {
-        this.playerState = PlayerState.Moving;
-      }
-    }
-  };
-
   public jump = () => {
     if (
       this.isCollisionWith("ramp") &&
       this.playerState !== PlayerState.Jumping
     ) {
       this.startAnimation("jump");
+      this.playerState = PlayerState.Jumping;
     }
   };
 
@@ -325,15 +310,15 @@ export class Player extends AnimatedObject {
    * update method
    */
   public update = () => {
-    if (this.isAlive) {
+    if (this.playerState !== PlayerState.Dead) {
+      //detect key down and set direction
       this.setDirectionFromKeyStates();
+      //detect direction and set image
       this.setImageFromDirection();
-      //check for collision
+      //check for collision, and set crash if detected
       this.updatePlayerOnCollisionWithObstacle();
       //move
       this.moveWorldAroundMe();
-      //
-      this.updatePlayerState();
       //
       this.jump();
       //

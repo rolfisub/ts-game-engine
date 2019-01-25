@@ -1,7 +1,6 @@
 import { GameObject } from "./game-object";
-import * as $ from "jquery";
-import * as _ from "lodash";
 import { Vector2D } from "./common";
+import * as $ from "jquery";
 
 export class Game {
   public width: number;
@@ -170,14 +169,12 @@ export class Game {
    * @param {string[]} imgsrc
    */
   private loadImages = (imgsrc: string[]) => {
-    if (_.isArray(imgsrc)) {
-      imgsrc.forEach(isrc => {
-        if (isrc && !this.images[isrc]) {
-          this.images[isrc] = new Image();
-          this.images[isrc].src = isrc;
-        }
-      });
-    }
+    imgsrc.forEach(isrc => {
+      if (isrc && !this.images[isrc]) {
+        this.images[isrc] = new Image();
+        this.images[isrc].src = isrc;
+      }
+    });
   };
 
   /**
@@ -186,18 +183,16 @@ export class Game {
    * @param {string[]} soundsrc
    */
   private loadSounds = (soundsrc: string[]) => {
-    if (_.isArray(soundsrc)) {
-      soundsrc.forEach(ssrc => {
-        if (ssrc && !this.sounds[ssrc]) {
-          this.sounds[ssrc] = new Audio();
-          this.sounds[ssrc].src = ssrc;
-          this.sounds[ssrc].setAttribute("preload", "auto");
-          this.sounds[ssrc].setAttribute("controls", "none");
-          this.sounds[ssrc].style.display = "none";
-          document.body.appendChild(this.sounds[ssrc]);
-        }
-      });
-    }
+    soundsrc.forEach(ssrc => {
+      if (ssrc && !this.sounds[ssrc]) {
+        this.sounds[ssrc] = new Audio();
+        this.sounds[ssrc].src = ssrc;
+        this.sounds[ssrc].setAttribute("preload", "auto");
+        this.sounds[ssrc].setAttribute("controls", "none");
+        this.sounds[ssrc].style.display = "none";
+        document.body.appendChild(this.sounds[ssrc]);
+      }
+    });
   };
 
   /**

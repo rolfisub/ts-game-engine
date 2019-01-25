@@ -74,7 +74,7 @@ export class Rhino extends GameObject {
    * if you click on the rhino you get to restart the game
    * this is a test for mouse events
    */
-  public onClick = () => {
+  public onClick = (event) => {
     document.location.reload();
   }
 }

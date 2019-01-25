@@ -1,8 +1,6 @@
 import { Model } from "./model";
-import { Vector2D } from "../common";
 
 export class Render extends Model {
-
   public imgsrc: string[] = [];
   public renderPriority: number = 1;
 

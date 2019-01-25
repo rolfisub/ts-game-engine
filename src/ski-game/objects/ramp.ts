@@ -1,4 +1,4 @@
-import { GameObject } from "../../engine/gameObject";
+import { GameObject } from "../../engine/game-object";
 
 export class Ramp extends GameObject {
   public id: string = "ramp";

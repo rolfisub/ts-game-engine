@@ -1,4 +1,4 @@
-import { GameObject } from "../../engine/gameObject";
+import { GameObject } from "../../engine/game-object";
 import { Obstacle, ObstacleIMAGES } from "./obstacle";
 import { Directions2D } from "../../engine/common";
 

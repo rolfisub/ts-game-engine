@@ -1,4 +1,4 @@
-import { GameObject } from "../../engine/gameObject";
+import { GameObject } from "../../engine/game-object";
 
 export enum ObstacleIMAGES {
   rock1 = "assets/img/rock_1.png",

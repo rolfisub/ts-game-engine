@@ -1,4 +1,4 @@
-import { GameObject } from "../../engine/gameObject";
+import { GameObject } from "../../engine/game-object";
 import { Rhino } from "./rhino";
 import { Player } from "./player";
 import { Directions2D } from "../../engine/common";

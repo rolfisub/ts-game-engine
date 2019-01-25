@@ -1,4 +1,4 @@
-import { GameObject } from "./gameObject";
+import { Render } from "./render";
 
 export interface Animation {
   images: string[];
@@ -13,7 +13,7 @@ type AnimationStore = {
   [key: string]: Animation;
 };
 
-export class AnimatedObject extends GameObject {
+export class Animated extends Render {
   /**
    * animations store
    * @type {{}}

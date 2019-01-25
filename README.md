@@ -28,7 +28,7 @@ requestAnimationFrame(game.gameLoop);
 
 At this point you will need to start adding game objects so that you can start rendering something.
 
-### gameObject.ts class ###
+### game-object.ts class ###
 
 This class is the base class for any object that will run code in the game, it can be an invisible or a visible object in the screen.
 
@@ -73,9 +73,9 @@ game.addObject(player);
 
 At this point, you will have a player that is rendered on the screen and that if you press any arrow key it will move.
 
-Please look at the gameObject.ts class for more information on all the properties that can be changed.
+Please look at the game-object.ts class for more information on all the properties that can be changed.
 
-### animatedObject.ts class ###
+### animated.ts class ###
 
 This class was created to render animated objects it is an extension of the GameObject class so everything that is available there will be avialable here.
 
@@ -83,9 +83,9 @@ An example to create an animated object and to start an animation will be:
 
 
 ```typescript
-import { AnimatedObject, Animation } from "../../engine/animatedObject";
+import { Animated, Animation } from "../../engine/animatedObject";
 
-class Dog extends AnimatedObject {
+class Dog extends Animated {
     public id: string = "dog";
     public width: number = 100;
     public height: number = 100;

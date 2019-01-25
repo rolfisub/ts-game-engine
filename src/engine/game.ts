@@ -1,4 +1,4 @@
-import { GameObject } from "./gameObject";
+import { GameObject } from "./game-object";
 import * as $ from "jquery";
 import * as _ from "lodash";
 import { Vector2D } from "./common";

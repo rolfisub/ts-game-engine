@@ -1,7 +1,8 @@
-import { AnimatedObject, Animation } from "../../engine/animatedObject";
+import { Animation } from "../../engine/game-object-children/animated";
 import { Player } from "./player";
+import { GameObject } from "../../engine/game-object";
 
-export class Rhino extends AnimatedObject {
+export class Rhino extends GameObject {
   public id: string = "rhino";
   public width: number = 100;
   public height: number = 100;

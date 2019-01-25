@@ -11,6 +11,7 @@
         "noImplicitAny": false,
         "strictNullChecks": true,
         "allowSyntheticDefaultImports": false,
+        "experimentalDecorators": true,
         "rootDirs": ["./src"],
         "baseUrl": "./src"
     },

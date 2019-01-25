@@ -1,6 +1,7 @@
 import { COMMON_KEY_CODES, Directions2D } from "../../engine/common";
 import * as $ from "jquery";
-import { AnimatedObject, Animation } from "../../engine/animatedObject";
+import { Animation } from "../../engine/game-object-children/animated";
+import { GameObject } from "../../engine/game-object";
 
 enum IMAGES {
   UP = "assets/img/skier_right.png",
@@ -27,7 +28,7 @@ enum Sounds {
   DIE = "assets/sounds/scream.mp3"
 }
 
-export class Player extends AnimatedObject {
+export class Player extends GameObject {
   /**
    * keep track of keys pressed
    * @type object
@@ -372,6 +373,7 @@ player.imgsrc = [
   IMAGES.RIGHT,
   IMAGES.CRASH
 ];
+
 player.addAnimation("jump", player.jumpingAnimation);
 player.soundsrc = [Sounds.CRASH, Sounds.MOVE, Sounds.DIE];
 

@@ -1,7 +1,8 @@
-import { AnimatedObject, Animation } from "../../engine/animatedObject";
+import { Animation } from "../../engine/game-object-children/animated";
 import { Player } from "./player";
+import { GameObject } from "../../engine/game-object";
 
-export class Rhino extends AnimatedObject {
+export class Rhino extends GameObject {
   public id: string = "rhino";
   public width: number = 100;
   public height: number = 100;
@@ -73,7 +74,7 @@ export class Rhino extends AnimatedObject {
    * if you click on the rhino you get to restart the game
    * this is a test for mouse events
    */
-  public onClick = () => {
+  public onClick = (event) => {
     document.location.reload();
   }
 }

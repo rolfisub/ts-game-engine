@@ -1,6 +1,7 @@
 import { COMMON_KEY_CODES, Directions2D } from "../../engine/common";
 import * as $ from "jquery";
-import { AnimatedObject, Animation } from "../../engine/animatedObject";
+import { Animation } from "../../engine/game-object-children/animated";
+import { GameObject } from "../../engine/game-object";
 
 enum IMAGES {
   UP = "assets/img/skier_right.png",
@@ -16,10 +17,18 @@ enum IMAGES {
 enum PlayerState {
   Standing,
   Moving,
-  Jumping
+  Jumping,
+  Crashed,
+  Dead
 }
 
-export class Player extends AnimatedObject {
+enum Sounds {
+  CRASH = "assets/sounds/crash.mp3",
+  MOVE = "assets/sounds/skiing.mp3",
+  DIE = "assets/sounds/scream.mp3"
+}
+
+export class Player extends GameObject {
   /**
    * keep track of keys pressed
    * @type object
@@ -264,6 +273,7 @@ export class Player extends AnimatedObject {
       setTimeout(() => {
         this.direction = Directions2D.NONE;
         this.updateImageTo(IMAGES.CRASH);
+        this.playSound(Sounds.CRASH);
       }, 150);
     }
   };
@@ -274,7 +284,8 @@ export class Player extends AnimatedObject {
   public killPlayer = () => {
     this.isAlive = false;
     this.updateImageTo(IMAGES.DEAD);
-    this.playerState = PlayerState.Standing;
+    this.playerState = PlayerState.Dead;
+    this.playSound(Sounds.DIE);
     this.stopCurrentAnimation();
   };
 
@@ -327,6 +338,16 @@ export class Player extends AnimatedObject {
       this.updatePlayerState();
       //
       this.jump();
+      //
+      this.playSounds();
+    }
+  };
+
+  protected playSounds = () => {
+    if (this.playerState === PlayerState.Moving) {
+      this.playSound(Sounds.MOVE);
+    } else {
+      this.pauseSound(Sounds.MOVE);
     }
   };
 }
@@ -352,7 +373,9 @@ player.imgsrc = [
   IMAGES.RIGHT,
   IMAGES.CRASH
 ];
+
 player.addAnimation("jump", player.jumpingAnimation);
+player.soundsrc = [Sounds.CRASH, Sounds.MOVE, Sounds.DIE];
 
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

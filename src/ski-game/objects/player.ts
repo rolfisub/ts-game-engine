@@ -24,7 +24,7 @@ enum PlayerState {
 enum Sounds {
   CRASH = "assets/sounds/crash.mp3",
   MOVE = "assets/sounds/skiing.mp3",
-  DIE = "assets/sound/scream.mp3"
+  DIE = "assets/sounds/scream.mp3"
 }
 
 export class Player extends AnimatedObject {
@@ -38,6 +38,12 @@ export class Player extends AnimatedObject {
     right: false,
     left: false
   };
+
+  /**
+   * is player alive?
+   * @type {boolean}
+   */
+  public isAlive: boolean = true;
 
   /**
    * Current Player State
@@ -203,9 +209,6 @@ export class Player extends AnimatedObject {
         this.direction = Directions2D.NONE;
       }
     }
-    if(this.direction !== Directions2D.NONE){
-      this.playerState = PlayerState.Moving;
-    }
   };
 
   /**
@@ -270,7 +273,6 @@ export class Player extends AnimatedObject {
         this.direction = Directions2D.NONE;
         this.updateImageTo(IMAGES.CRASH);
         this.playSound(Sounds.CRASH);
-        this.playerState = PlayerState.Crashed;
       }, 150);
     }
   };
@@ -279,8 +281,10 @@ export class Player extends AnimatedObject {
    * kills the player
    */
   public killPlayer = () => {
+    this.isAlive = false;
     this.updateImageTo(IMAGES.DEAD);
     this.playerState = PlayerState.Dead;
+    this.playSound(Sounds.DIE);
     this.stopCurrentAnimation();
   };
 
@@ -296,13 +300,25 @@ export class Player extends AnimatedObject {
     this.moveObjectsInOppositeDirection("ramp");
   };
 
+  /**
+   * switches between moving and standing
+   */
+  public updatePlayerState = () => {
+    if (this.playerState !== PlayerState.Jumping) {
+      if (this.direction === Directions2D.NONE) {
+        this.playerState = PlayerState.Standing;
+      } else {
+        this.playerState = PlayerState.Moving;
+      }
+    }
+  };
+
   public jump = () => {
     if (
       this.isCollisionWith("ramp") &&
       this.playerState !== PlayerState.Jumping
     ) {
       this.startAnimation("jump");
-      this.playerState = PlayerState.Jumping;
     }
   };
 
@@ -310,15 +326,15 @@ export class Player extends AnimatedObject {
    * update method
    */
   public update = () => {
-    if (this.playerState !== PlayerState.Dead) {
-      //detect key down and set direction
+    if (this.isAlive) {
       this.setDirectionFromKeyStates();
-      //detect direction and set image
       this.setImageFromDirection();
-      //check for collision, and set crash if detected
+      //check for collision
       this.updatePlayerOnCollisionWithObstacle();
       //move
       this.moveWorldAroundMe();
+      //
+      this.updatePlayerState();
       //
       this.jump();
       //
@@ -357,7 +373,7 @@ player.imgsrc = [
   IMAGES.CRASH
 ];
 player.addAnimation("jump", player.jumpingAnimation);
-player.soundsrc = [Sounds.CRASH, Sounds.MOVE];
+player.soundsrc = [Sounds.CRASH, Sounds.MOVE, Sounds.DIE];
 
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

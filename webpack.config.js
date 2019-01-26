@@ -29,7 +29,7 @@ if (!fs.existsSync(path.resolve("./src", game))) {
 
 module.exports = {
   mode,
-  entry: "./src/index.ts",
+  entry: "./src/" + game + "/index.ts",
   devtool: mode === "development" ? "eval" : "sourcemap",
   output: {
     filename: "bundle.js",

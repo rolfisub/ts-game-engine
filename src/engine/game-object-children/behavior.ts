@@ -17,8 +17,8 @@ export class Behavior extends Model {
    * built in basic move function
    */
   public move = (direction?: Directions2D, speed?: number) => {
-    let theDirection = direction ? direction : this.direction;
-    let theSpeed = speed ? speed : this.speed;
+    const theDirection = direction ? direction : this.direction;
+    const theSpeed = speed ? speed : this.speed;
 
     switch (theDirection) {
       case Directions2D.DOWN: {

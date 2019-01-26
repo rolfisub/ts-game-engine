@@ -7,7 +7,7 @@ import { Helper } from "./game-object-children/helper";
 import { Physics } from "./game-object-children/physics";
 import { Animated } from "./game-object-children/animated";
 
-//trick typescript for intelisense
+//trick typescript for intellisense
 export interface GameObject
   extends Render,
     Sound,

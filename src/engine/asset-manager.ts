@@ -1,5 +1,12 @@
+enum AssetType {
+  Image = "image",
+  Animation = "animation",
+  Sound = "sound"
+}
+
 export interface Asset {
   id: string;
+  type: AssetType;
 }
 
 export interface Image extends Asset {
@@ -36,9 +43,31 @@ type SoundStore = {
   [key: string]: Sound;
 };
 
+type AssetInput = Image | Animation | Sound;
+
 export class AssetManager {
   private images: ImageStore = {};
   private animations: AnimationStore = {};
   private sounds: SoundStore = {};
+
+  /**
+   * adds an asset to its store
+   * @param {AssetInput} asset
+   */
+  public addAsset = (asset: AssetInput) => {
+    switch (asset.type) {
+      case AssetType.Image:
+        this.images[asset.id] = asset as Image;
+        break;
+      case AssetType.Animation:
+        this.animations[asset.id] = asset as Animation;
+        break;
+      case AssetType.Sound:
+        this.sounds[asset.id] = asset as Sound;
+        break;
+      default:
+        throw new Error("Incorrect Asset Type");
+    }
+  };
 
 }

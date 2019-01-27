@@ -2,6 +2,11 @@ import { Animation } from "../../engine/game-object-children/animated";
 import { Player } from "./player";
 import { GameObject } from "../../engine/game-object";
 
+enum Sounds {
+  RUN = "assets/sounds/running.mp3",
+  EAT = "assets/sounds/eating.mp3"
+}
+
 export class Rhino extends GameObject {
   public id: string = "rhino";
   public width: number = 100;
@@ -9,13 +14,22 @@ export class Rhino extends GameObject {
   public speed: number = 7;
   public moving: boolean = false;
   public playerFound: boolean = false;
-
+  public soundsrc = [Sounds.EAT, Sounds.RUN];
 
   public runAnimation: Animation = {
-    images: ["assets/img/rhino_run_left.png", "assets/img/rhino_run_left_2.png"],
+    images: [
+      "assets/img/rhino_run_left.png",
+      "assets/img/rhino_run_left_2.png"
+    ],
     speed: 150,
     repeat: true,
-    running: false
+    running: false,
+    start: () => {
+      this.playSound(Sounds.RUN);
+    },
+    done: () => {
+      this.stopSound(Sounds.RUN);
+    }
   };
 
   public eatAnimation: Animation = {
@@ -29,7 +43,14 @@ export class Rhino extends GameObject {
     ],
     speed: 450,
     repeat: false,
-    running: false
+    running: false,
+    start: () => {
+      this.stopSound(Sounds.RUN);
+      this.playSound(Sounds.EAT);
+    },
+    done: () => {
+      this.stopSound(Sounds.EAT);
+    }
   };
 
   /**
@@ -74,7 +95,7 @@ export class Rhino extends GameObject {
    * if you click on the rhino you get to restart the game
    * this is a test for mouse events
    */
-  public onClick = (event) => {
+  public onClick = event => {
     document.location.reload();
-  }
+  };
 }

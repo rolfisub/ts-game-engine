@@ -25,7 +25,8 @@ enum PlayerState {
 enum Sounds {
   CRASH = "assets/sounds/crash.mp3",
   MOVE = "assets/sounds/skiing.mp3",
-  DIE = "assets/sounds/scream.mp3"
+  DIE = "assets/sounds/scream.mp3",
+  JUMPING = "assets/sounds/wind.mp3"
 }
 
 export class Player extends GameObject {
@@ -74,6 +75,7 @@ export class Player extends GameObject {
       this.width = 65;
       this.height = 65;
       this.speed = 10;
+      this.playSound(Sounds.JUMPING);
     },
     done: () => {
       this.playerState = PlayerState.Moving;
@@ -82,6 +84,7 @@ export class Player extends GameObject {
       this.width = 50;
       this.height = 50;
       this.speed = 8;
+      this.stopSound(Sounds.JUMPING);
     }
   };
 
@@ -375,7 +378,7 @@ player.imgsrc = [
 ];
 
 player.addAnimation("jump", player.jumpingAnimation);
-player.soundsrc = [Sounds.CRASH, Sounds.MOVE, Sounds.DIE];
+player.soundsrc = [Sounds.CRASH, Sounds.MOVE, Sounds.DIE, Sounds.JUMPING];
 
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

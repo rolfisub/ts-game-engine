@@ -1,8 +1,15 @@
 import { Model } from "./model";
 
 export class Sound extends Model {
+  /**
+   * sound store
+   * @type {any[]}
+   */
   public soundsrc: string[] = [];
 
+  /**
+   * game API to get sound
+   */
   public getSound: (sound) => HTMLAudioElement | undefined;
 
   /**
@@ -12,9 +19,8 @@ export class Sound extends Model {
   public playSound = src => {
     const s = this.getSound(src);
     if (s) {
-      if (s.duration > 0 && !s.paused) {
-        //do nothing
-      } else {
+      //only play if sound is not being played already
+      if (!this.isSoundPlaying(s)) {
         s.play();
       }
     }
@@ -41,5 +47,14 @@ export class Sound extends Model {
     if (s) {
       s.pause();
     }
+  };
+
+  /**
+   * check if the sound is already playing
+   * @param {HTMLAudioElement} s
+   * @returns {boolean}
+   */
+  private isSoundPlaying = (s: HTMLAudioElement): boolean => {
+    return s.duration > 0 && !s.paused;
   };
 }

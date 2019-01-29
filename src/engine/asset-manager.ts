@@ -38,6 +38,23 @@ export class AssetManager implements AssetManagerInterface {
    * @param {AssetType} type
    */
   public add = (input: AssetInput, type: AssetType) => {
+    switch (type) {
+      case AssetType.Image: {
+        this.assets[input.id] = new Image(input.id, input.src as string);
+        break;
+      }
+      case AssetType.Animation: {
+        this.assets[input.id] = new Animation(input.id, input.src as string[]);
+        break;
+      }
+      case AssetType.Sound: {
+        this.assets[input.id] = new Sound(input.id, input.src as string);
+        break;
+      }
+      default: {
+        throw new Error("Type not supported");
+      }
+    }
     return;
   };
 

@@ -1,6 +1,7 @@
 import { Sound } from "./assets/sound";
 import { Image } from "./assets/image";
 import { Animation } from "./assets/animation";
+import * as _ from "lodash";
 
 export enum AssetType {
   Image = "image",
@@ -36,8 +37,13 @@ export class AssetManager implements AssetManagerInterface {
    * adds an asset to the store
    * @param {AssetInput} input
    * @param {AssetType} type
+   * @param {boolean} autoload
    */
-  public add = (input: AssetInput, type: AssetType) => {
+  public add = (
+    input: AssetInput,
+    type: AssetType,
+    autoload: boolean = false
+  ) => {
     switch (type) {
       case AssetType.Image: {
         this.assets[input.id] = new Image(input.id, input.src as string);
@@ -55,6 +61,9 @@ export class AssetManager implements AssetManagerInterface {
         throw new Error("Type not supported");
       }
     }
+    if (autoload) {
+      this.load(input.id);
+    }
     return;
   };
 
@@ -63,6 +72,11 @@ export class AssetManager implements AssetManagerInterface {
    * @param {string | string[]} id
    */
   public load = (id: string | string[]) => {
+    if (_.isString(id)) {
+      this.assets[id].load();
+    } else if (_.isArray(id)) {
+      id.forEach(i => this.assets[i].load());
+    }
     return;
   };
 

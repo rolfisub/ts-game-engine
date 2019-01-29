@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.29",
+    "@types/lodash": "^4.14.120",
     "@types/yargs": "^12.0.5",
     "copy-webpack-plugin": "^4.6.0",
     "html-webpack-plugin": "^3.2.0",
@@ -25,6 +26,7 @@
   },
   "dependencies": {
     "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
     "ts-mixer": "^2.0.5"
   }
 }

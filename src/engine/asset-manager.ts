@@ -1,73 +1,78 @@
-enum AssetType {
+import { Sound } from "./assets/sound";
+import { Image } from "./assets/image";
+import { Animation } from "./assets/animation";
+
+export enum AssetType {
   Image = "image",
   Animation = "animation",
   Sound = "sound"
 }
 
-export interface Asset {
+export interface AssetInput {
   id: string;
-  type: AssetType;
+  src: string | string[];
 }
 
-export interface Image extends Asset {
-  src: string;
-  instance?: CanvasImageSource;
-}
-
-export interface Animation extends Asset {
-  src: string[];
-  speed: number;
-  repeat: boolean;
-  start?: () => void;
-  each?: () => void;
-  end?: () => void;
-  instance?: CanvasImageSource[];
-}
-
-export interface Sound extends Asset {
-  src: string;
-  volume: string;
-  repeat: boolean;
-  instance?: HTMLAudioElement;
-}
-
-type ImageStore = {
-  [key: string]: Image;
+type AssetStore = {
+  [key: string]: any;
 };
 
-type AnimationStore = {
-  [key: string]: Animation;
-};
+interface AssetManagerInterface {
+  add: (input: AssetInput, type: AssetType) => void;
+  load: (id: string | string[]) => void;
+  getSound: (id: string) => Sound;
+  getImage: (id: string) => Image;
+  getAnimation: (id: string) => Animation;
+}
 
-type SoundStore = {
-  [key: string]: Sound;
-};
-
-type AssetInput = Image | Animation | Sound;
-
-export class AssetManager {
-  private images: ImageStore = {};
-  private animations: AnimationStore = {};
-  private sounds: SoundStore = {};
+export class AssetManager implements AssetManagerInterface {
+  /**
+   * key value asset store
+   * @type {{}}
+   */
+  private assets: AssetStore = {};
 
   /**
-   * adds an asset to its store
-   * @param {AssetInput} asset
+   * adds an asset to the store
+   * @param {AssetInput} input
+   * @param {AssetType} type
    */
-  public addAsset = (asset: AssetInput) => {
-    switch (asset.type) {
-      case AssetType.Image:
-        this.images[asset.id] = asset as Image;
-        break;
-      case AssetType.Animation:
-        this.animations[asset.id] = asset as Animation;
-        break;
-      case AssetType.Sound:
-        this.sounds[asset.id] = asset as Sound;
-        break;
-      default:
-        throw new Error("Incorrect Asset Type");
-    }
+  public add = (input: AssetInput, type: AssetType) => {
+    return;
   };
 
+  /**
+   * loads an asset or list of assets in to memory
+   * @param {string | string[]} id
+   */
+  public load = (id: string | string[]) => {
+    return;
+  };
+
+  /**
+   * gets a Sound class instance from store
+   * @param {string} id
+   * @returns {Sound}
+   */
+  public getSound = (id: string): Sound => {
+    return this.assets[id];
+  };
+
+  /**
+   * gets a Image class instance from store
+   * @param {string} id
+   * @returns {Image}
+   */
+  public getImage = (id: string): Image => {
+    return this.assets[id];
+  };
+
+  /**
+   * gets an animation from the store
+   * @param {string} id
+   * @returns {Animation}
+   */
+  public getAnimation = (id: string): Animation => {
+    return this.assets[id];
+  };
 }

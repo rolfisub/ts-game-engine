@@ -13,16 +13,17 @@ export class Test extends GameObject {
   public init = () => {
     this.getGameInstance().assets.add(
       { id: "testImage", src: "assets/img/jump_ramp.png" },
-      AssetType.Image,
-      true
+      AssetType.Image
     );
 
-    this.getGameInstance().assets.addSrcList(assetList, AssetType.Image, true);
+    this.getGameInstance().assets.addSrcList(assetList, AssetType.Image);
 
     console.log(this.getGameInstance().assets);
 
+    this.getGameInstance().assets.loadStartsWith("test");
+    this.getGameInstance().assets.loadStartsWith("assets");
+
     this.image = this.getGameInstance()
-      .assets.get<ImageAsset>("testImage")
-      .get();
+      .assets.get<ImageAsset>("testImage").get()
   };
 }

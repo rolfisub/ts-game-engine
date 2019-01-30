@@ -53,7 +53,10 @@ export class AssetManager implements AssetManagerInterface {
         break;
       }
       case AssetType.Animation: {
-        this.assets[input.id] = new AnimationAsset(input.id, input.src as string[]);
+        this.assets[input.id] = new AnimationAsset(
+          input.id,
+          input.src as string[]
+        );
         break;
       }
       case AssetType.Sound: {
@@ -127,6 +130,18 @@ export class AssetManager implements AssetManagerInterface {
       });
     }
     return;
+  };
+
+  /**
+   * Loads a group of assets that starts with a prefix
+   * @param {string} prefix
+   */
+  public loadStartsWith = (prefix: string) => {
+    const ids = _.keys(this.assets);
+    const match = ids.filter(k => {
+      return _.startsWith(k, prefix);
+    });
+    match.forEach(id => this.load(id));
   };
 
   /**

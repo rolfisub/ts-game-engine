@@ -74,6 +74,21 @@ export class AssetManager implements AssetManagerInterface {
   };
 
   /**
+   * adds an asset with id equal to src
+   * @param {string | string[]} src
+   * @param {AssetType} type
+   * @param {boolean} autoload
+   */
+  public addSrc = (
+    src: string | string[],
+    type: AssetType,
+    autoload: boolean = false
+  ) => {
+    const s = _.isString(src) ? [src] : [...src];
+    this.addSrcList(s, type, autoload);
+  };
+
+  /**
    * loads an array of assets
    * @param {Array<string | []>} list
    * @param {AssetType} type

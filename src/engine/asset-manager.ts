@@ -21,9 +21,7 @@ type AssetStore = {
 interface AssetManagerInterface {
   add: (input: AssetInput, type: AssetType) => void;
   load: (id: string | string[]) => void;
-  getSound: (id: string) => Sound;
-  getImage: (id: string) => Image;
-  getAnimation: (id: string) => Animation;
+  get: <T>(id: string) => T;
 }
 
 export class AssetManager implements AssetManagerInterface {
@@ -58,7 +56,7 @@ export class AssetManager implements AssetManagerInterface {
         break;
       }
       default: {
-        throw new Error("Type not supported");
+        throw new Error("AssetType not supported");
       }
     }
     if (autoload) {
@@ -73,37 +71,32 @@ export class AssetManager implements AssetManagerInterface {
    */
   public load = (id: string | string[]) => {
     if (_.isString(id)) {
-      this.assets[id].load();
+      if (this.assets[id]) {
+        this.assets[id].load();
+      } else {
+        throw new Error("Asset id: " + id + " not found.");
+      }
     } else if (_.isArray(id)) {
-      id.forEach(i => this.assets[i].load());
+      id.forEach(i => {
+        if (this.assets[i]) {
+          this.assets[i].load();
+        } else {
+          throw new Error("Asset id: " + i + " not found.");
+        }
+      });
     }
     return;
   };
 
   /**
-   * gets a Sound class instance from store
+   * gets ans asset class instance
    * @param {string} id
-   * @returns {Sound}
+   * @returns {T}
    */
-  public getSound = (id: string): Sound => {
-    return this.assets[id];
-  };
-
-  /**
-   * gets a Image class instance from store
-   * @param {string} id
-   * @returns {Image}
-   */
-  public getImage = (id: string): Image => {
-    return this.assets[id];
-  };
-
-  /**
-   * gets an animation from the store
-   * @param {string} id
-   * @returns {Animation}
-   */
-  public getAnimation = (id: string): Animation => {
-    return this.assets[id];
+  public get = <T>(id: string) => {
+    if (this.assets[id]) {
+      return this.assets[id] as T;
+    }
+    throw new Error("Asset id: " + id + " not found.");
   };
 }

@@ -1,5 +1,5 @@
 export interface LoadableAsset<T> {
   id: string;
-  load: () => LoadableAsset<T>;
+  load: () => Promise<LoadableAsset<T>>;
   get: () => T;
 }

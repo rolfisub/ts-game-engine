@@ -2,6 +2,7 @@ import { SoundAsset } from "./assets/sound";
 import { ImageAsset } from "./assets/image";
 import { AnimationAsset } from "./assets/animation";
 import * as _ from "lodash";
+import { LoadableAsset } from "./assets/common";
 
 export enum AssetType {
   Image = "image",
@@ -18,6 +19,12 @@ type AssetStore = {
   [key: string]: any;
 };
 
+interface LoadCallbacks {
+  start: (total: number) => void;
+  each: (left: number) => void;
+  end: () => void;
+}
+
 interface AssetManagerInterface {
   add: (input: AssetInput, type: AssetType, autoload: boolean) => AssetManager;
   addSrcList: (
@@ -25,7 +32,10 @@ interface AssetManagerInterface {
     type: AssetType,
     autoload: boolean
   ) => AssetManager;
-  load: (id: string | string[]) => AssetManager;
+  load: (
+    id: string | string[],
+    callbacks: LoadCallbacks
+  ) => Promise<AssetManager>;
   get: <T>(id: string) => T;
 }
 
@@ -132,39 +142,77 @@ export class AssetManager implements AssetManagerInterface {
   /**
    * loads an asset or list of assets in to memory
    * @param {string | string[]} id
-   * @returns {AssetManager}
+   * @param {LoadCallbacks} callbacks
+   * @returns {Promise<AssetManager>}
    */
-  public load = (id: string | string[]) => {
-    if (_.isString(id)) {
-      if (this.assets[id]) {
-        this.assets[id].load();
-      } else {
-        throw new Error("Asset id: " + id + " not found.");
-      }
-    } else if (_.isArray(id)) {
-      id.forEach(i => {
-        if (this.assets[i]) {
-          this.assets[i].load();
-        } else {
-          throw new Error("Asset id: " + i + " not found.");
-        }
-      });
+  public load = (
+    id: string | string[],
+    callbacks: LoadCallbacks = {
+      start: (total: number) => null,
+      each: (left: number) => null,
+      end: () => null
     }
-    return this;
+  ): Promise<AssetManager> => {
+    return new Promise<AssetManager>((resolve, reject) => {
+      if (_.isString(id)) {
+        if (this.assets[id]) {
+          callbacks.start(1);
+          const p = this.assets[id].load();
+          p.then(() => {
+            callbacks.each(0);
+            callbacks.end();
+            resolve(this);
+          });
+        } else {
+          throw new Error("Asset id: " + id + " not found.");
+        }
+      } else if (_.isArray(id)) {
+        callbacks.start(id.length);
+        let count = 0;
+        const ps: Array<Promise<LoadableAsset<any>>> = [];
+        id.forEach(i => {
+          if (this.assets[i]) {
+            const p = this.assets[i].load();
+            p.then(() => {
+              count++;
+              callbacks.each(id.length - count);
+            });
+            ps.push(p);
+          } else {
+            throw new Error("Asset id: " + i + " not found.");
+          }
+        });
+        Promise.all(ps)
+          .then(() => {
+            callbacks.end();
+            resolve(this);
+          })
+          .catch(e => {
+            reject(e);
+          });
+      }
+    });
   };
 
   /**
    * Loads a group of assets that starts with a prefix
    * @param {string} prefix
-   * @returns {AssetManager}
+   * @param {LoadCallbacks} callbacks
+   * @returns {Promise<AssetManager>}
    */
-  public loadStartsWith = (prefix: string) => {
+  public loadStartsWith = (
+    prefix: string,
+    callbacks: LoadCallbacks = {
+      start: (total: number) => null,
+      each: (left: number) => null,
+      end: () => null
+    }
+  ) => {
     const ids = _.keys(this.assets);
     const match = ids.filter(k => {
       return _.startsWith(k, prefix);
     });
-    match.forEach(id => this.load(id));
-    return this;
+    return this.load(match, callbacks);
   };
 
   /**

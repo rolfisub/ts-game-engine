@@ -1,5 +1,6 @@
 import { GameObject } from "../../../engine/game-object";
 import { AssetType } from "../../../engine/asset-manager";
+import { ImageAsset } from "../../../engine/assets/image";
 
 const assetList = [
   "assets/img/rhino_lift_eat_1.png",
@@ -19,5 +20,9 @@ export class Test extends GameObject {
     this.getGameInstance().assets.addSrcList(assetList, AssetType.Image, true);
 
     console.log(this.getGameInstance().assets);
+
+    this.image = this.getGameInstance()
+      .assets.get<ImageAsset>("testImage")
+      .get();
   };
 }

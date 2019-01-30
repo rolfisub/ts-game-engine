@@ -1,6 +1,6 @@
 import { LoadableAsset } from "./common";
 
-export class Sound implements LoadableAsset<HTMLAudioElement> {
+export class SoundAsset implements LoadableAsset<HTMLAudioElement> {
   private instance: HTMLAudioElement;
   constructor(public id: string, private src: string) {}
 

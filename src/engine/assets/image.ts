@@ -1,11 +1,11 @@
 import { LoadableAsset } from "./common";
 
-export class Image implements LoadableAsset<HTMLImageElement> {
+export class ImageAsset implements LoadableAsset<HTMLImageElement> {
   private instance: HTMLImageElement;
   constructor(public id: string, private src: string) {}
 
   public load = () => {
-    this.instance = new HTMLImageElement();
+    this.instance = new Image();
     this.instance.src = this.src;
     this.instance.style.display = "none";
     document.body.appendChild(this.instance);

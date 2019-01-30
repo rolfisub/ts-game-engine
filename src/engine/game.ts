@@ -1,11 +1,18 @@
 import { GameObject } from "./game-object";
 import { Vector2D } from "./common";
 import * as $ from "jquery";
+import { AssetManager } from "./asset-manager";
 
 export class Game {
   public width: number;
   public height: number;
   public el: string;
+
+  /**
+   *
+   * @type {AssetManager}
+   */
+  public assets = new AssetManager();
 
   /**
    * game object store

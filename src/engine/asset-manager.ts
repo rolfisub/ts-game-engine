@@ -19,7 +19,12 @@ type AssetStore = {
 };
 
 interface AssetManagerInterface {
-  add: (input: AssetInput, type: AssetType) => void;
+  add: (input: AssetInput, type: AssetType, autoload: boolean) => void;
+  addSrcList: (
+    list: Array<string | []>,
+    type: AssetType,
+    autoload: boolean
+  ) => void;
   load: (id: string | string[]) => void;
   get: <T>(id: string) => T;
 }
@@ -63,6 +68,42 @@ export class AssetManager implements AssetManagerInterface {
       this.load(input.id);
     }
     return;
+  };
+
+  /**
+   * loads an array of assets
+   * @param {Array<string | []>} list
+   * @param {AssetType} type
+   * @param {boolean} autoload
+   */
+  public addSrcList = (
+    list: Array<string | []>,
+    type: AssetType,
+    autoload: boolean = false
+  ) => {
+    list.forEach(s => {
+      if (_.isString(s)) {
+        this.add(
+          {
+            id: s,
+            src: s
+          },
+          type,
+          autoload
+        );
+      } else if (_.isArray(s)) {
+        s.forEach(ss => {
+          this.add(
+            {
+              id: ss,
+              src: ss
+            },
+            type,
+            autoload
+          );
+        });
+      }
+    });
   };
 
   /**

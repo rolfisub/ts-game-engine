@@ -28,10 +28,10 @@ export class GameObject {
   public init = () => {
     if (this.imgsrc && this.assets) {
       //by default we expect to load an image that has the same id as the game object
-      this.image = this.assets
-        .get<ImageAsset>(this.id)
-        .load()
-        .get();
+      const asset = this.assets.get<ImageAsset>(this.id);
+      asset.load().then(() => {
+        this.image = asset.get();
+      });
     }
   };
 }

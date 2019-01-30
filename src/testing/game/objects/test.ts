@@ -10,21 +10,32 @@ const assetList = [
 ];
 
 export class Test extends GameObject {
-
   public init = () => {
-    this.getGameInstance().assets.add(
+    this.assets.add(
       { id: "testImage", src: "assets/img/jump_ramp.png" },
-      AssetType.Image,
-      true
+      AssetType.Image
     );
 
-    this.getGameInstance().assets.addSrcList(assetList, AssetType.Image);
+    this.assets.addSrcList(assetList, AssetType.Image);
 
-    console.log(this.getGameInstance().assets);
+    console.log(this.assets);
 
-    this.getGameInstance().assets.loadStartsWith("assets");
+    this.assets.loadStartsWith("assets", {
+      start: total => {
+        console.log("total assets to load:" + total);
+      },
+      each: left => {
+        console.log("total assets left to load:" + left);
+      },
+      end: () => {
+        console.log("DONE");
+      }
+    });
 
-    this.image = this.getGameInstance()
-      .assets.get<ImageAsset>("testImage").get()
+    this.assets
+      .load("testImage")
+      .then(() => {
+        this.image = this.assets.get<ImageAsset>("testImage").get();
+      });
   };
 }

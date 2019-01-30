@@ -1,5 +1,5 @@
 export interface LoadableAsset<T> {
   id: string;
-  load: () => void;
+  load: () => LoadableAsset<T>;
   get: () => T;
 }

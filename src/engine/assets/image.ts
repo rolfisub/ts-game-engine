@@ -9,7 +9,7 @@ export class ImageAsset implements LoadableAsset<HTMLImageElement> {
     this.instance.src = this.src;
     this.instance.style.display = "none";
     document.body.appendChild(this.instance);
-    return;
+    return this;
   };
 
   public get = (): HTMLImageElement => {

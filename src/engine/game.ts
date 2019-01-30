@@ -9,12 +9,6 @@ export class Game {
   public el: string;
 
   /**
-   *
-   * @type {AssetManager}
-   */
-  public assets = new AssetManager();
-
-  /**
    * game object store
    * @type {any[]}
    */
@@ -30,6 +24,12 @@ export class Game {
    * @type {{}}
    */
   private sounds: object = {};
+
+  /**
+   * Asset Store Manager
+   * @type {AssetManager}
+   */
+  private assets = new AssetManager();
 
   private ctx: CanvasRenderingContext2D | null;
   private canvas: HTMLCanvasElement;
@@ -155,6 +155,7 @@ export class Game {
     o.getObjectsById = this.getObjectsById;
     o.addObject = this.addObject;
     o.getGameInstance = () => this;
+    o.setAssetManager(this.assets);
   };
 
   /**

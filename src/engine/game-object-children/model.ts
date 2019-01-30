@@ -1,4 +1,5 @@
 import { Vector2D } from "../common";
+import { AssetManager } from "../asset-manager";
 
 export class Model {
   /**
@@ -11,4 +12,17 @@ export class Model {
 
   public width: number = 50;
   public height: number = 50;
+
+  /**
+   * asset manager injected
+   */
+  protected assets: AssetManager;
+
+  /**
+   * set the asset manager from outside
+   * @param {AssetManager} am
+   */
+  public setAssetManager = (am: AssetManager) => {
+    this.assets = am;
+  };
 }

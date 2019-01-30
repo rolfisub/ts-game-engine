@@ -13,7 +13,7 @@ export class AnimationAsset implements LoadableAsset<HTMLImageElement> {
       document.body.appendChild(img);
       this.store.push(img);
     });
-    return;
+    return this;
   };
 
   public get = (): HTMLImageElement => {

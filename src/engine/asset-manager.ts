@@ -19,13 +19,13 @@ type AssetStore = {
 };
 
 interface AssetManagerInterface {
-  add: (input: AssetInput, type: AssetType, autoload: boolean) => void;
+  add: (input: AssetInput, type: AssetType, autoload: boolean) => AssetManager;
   addSrcList: (
     list: Array<string | []>,
     type: AssetType,
     autoload: boolean
-  ) => void;
-  load: (id: string | string[]) => void;
+  ) => AssetManager;
+  load: (id: string | string[]) => AssetManager;
   get: <T>(id: string) => T;
 }
 
@@ -41,6 +41,7 @@ export class AssetManager implements AssetManagerInterface {
    * @param {AssetInput} input
    * @param {AssetType} type
    * @param {boolean} autoload
+   * @returns {AssetManager}
    */
   public add = (
     input: AssetInput,
@@ -70,7 +71,7 @@ export class AssetManager implements AssetManagerInterface {
     if (autoload) {
       this.load(input.id);
     }
-    return;
+    return this;
   };
 
   /**
@@ -78,6 +79,7 @@ export class AssetManager implements AssetManagerInterface {
    * @param {string | string[]} src
    * @param {AssetType} type
    * @param {boolean} autoload
+   * @returns {AssetManager}
    */
   public addSrc = (
     src: string | string[],
@@ -86,6 +88,7 @@ export class AssetManager implements AssetManagerInterface {
   ) => {
     const s = _.isString(src) ? [src] : [...src];
     this.addSrcList(s, type, autoload);
+    return this;
   };
 
   /**
@@ -93,6 +96,7 @@ export class AssetManager implements AssetManagerInterface {
    * @param {Array<string | []>} list
    * @param {AssetType} type
    * @param {boolean} autoload
+   * @returns {AssetManager}
    */
   public addSrcList = (
     list: Array<string | []>,
@@ -122,11 +126,13 @@ export class AssetManager implements AssetManagerInterface {
         });
       }
     });
+    return this;
   };
 
   /**
    * loads an asset or list of assets in to memory
    * @param {string | string[]} id
+   * @returns {AssetManager}
    */
   public load = (id: string | string[]) => {
     if (_.isString(id)) {
@@ -144,12 +150,13 @@ export class AssetManager implements AssetManagerInterface {
         }
       });
     }
-    return;
+    return this;
   };
 
   /**
    * Loads a group of assets that starts with a prefix
    * @param {string} prefix
+   * @returns {AssetManager}
    */
   public loadStartsWith = (prefix: string) => {
     const ids = _.keys(this.assets);
@@ -157,10 +164,11 @@ export class AssetManager implements AssetManagerInterface {
       return _.startsWith(k, prefix);
     });
     match.forEach(id => this.load(id));
+    return this;
   };
 
   /**
-   * gets ans asset class instance
+   * gets an asset class instance by id
    * @param {string} id
    * @returns {T}
    */

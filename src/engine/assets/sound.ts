@@ -11,7 +11,7 @@ export class SoundAsset implements LoadableAsset<HTMLAudioElement> {
     this.instance.setAttribute("controls", "none");
     this.instance.style.display = "none";
     document.body.appendChild(this.instance);
-    return;
+    return this;
   };
 
   public get = (): HTMLAudioElement => {

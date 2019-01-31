@@ -1,60 +1,28 @@
 import { Model } from "./model";
+import { SoundAsset } from "../assets/sound";
 
 export class Sound extends Model {
   /**
-   * sound store
-   * @type {any[]}
-   */
-  public soundsrc: string[] = [];
-
-  /**
-   * game API to get sound
-   */
-  public getSound: (sound) => HTMLAudioElement | undefined;
-
-  /**
-   * plays a sound from the store
+   * plays a sound by src
    * @param src
    */
   public playSound = src => {
-    const s = this.getSound(src);
-    if (s) {
-      //only play if sound is not being played already
-      if (!this.isSoundPlaying(s)) {
-        s.play();
-      }
-    }
+    this.assets.get<SoundAsset>(src).play();
   };
 
   /**
-   * stops the sound and resets progress to beginning
-   * @param src
-   */
-  public stopSound = src => {
-    const s = this.getSound(src);
-    if (s) {
-      s.currentTime = 0;
-      s.pause();
-    }
-  };
-
-  /**
-   * just pauses the sound where it is
+   * pauses a sound by src
    * @param src
    */
   public pauseSound = src => {
-    const s = this.getSound(src);
-    if (s) {
-      s.pause();
-    }
+    this.assets.get<SoundAsset>(src).pause();
   };
 
   /**
-   * check if the sound is already playing
-   * @param {HTMLAudioElement} s
-   * @returns {boolean}
+   * stops a sound by src
+   * @param src
    */
-  private isSoundPlaying = (s: HTMLAudioElement): boolean => {
-    return s.duration > 0 && !s.paused;
+  public stopSound = src => {
+    this.assets.get<SoundAsset>(src).stop();
   };
 }

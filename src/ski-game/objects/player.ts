@@ -1,7 +1,8 @@
-import { COMMON_KEY_CODES, Directions2D } from "../../engine/common";
+import { COMMON_KEY_CODES, Directions2D, Vector2D } from "../../engine/common";
 import * as $ from "jquery";
 import { Animation } from "../../engine/game-object-children/animated";
 import { GameObject } from "../../engine/game-object";
+import { AssetType } from "../../engine/asset-manager";
 
 enum IMAGES {
   UP = "assets/img/skier_right.png",
@@ -30,6 +31,16 @@ enum Sounds {
 }
 
 export class Player extends GameObject {
+  public id = "player";
+  public pos: Vector2D = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2
+  };
+  public height = 50;
+  public width = 50;
+  public speed = 8;
+  public direction: Directions2D = Directions2D.NONE;
+
   /**
    * keep track of keys pressed
    * @type object
@@ -86,6 +97,35 @@ export class Player extends GameObject {
       this.speed = 8;
       this.stopSound(Sounds.JUMPING);
     }
+  };
+
+  public init = () => {
+    /**
+     * load images
+     */
+    this.assets.addSrc(
+      [
+        IMAGES.DEAD,
+        IMAGES.CRASH,
+        IMAGES.RIGHT,
+        IMAGES.LEFT,
+        IMAGES.DOWN,
+        IMAGES.DOWN_LEFT,
+        IMAGES.DOWN_RIGHT,
+        IMAGES.UP
+      ],
+      AssetType.Image,
+      true
+    );
+
+    /**
+     * load sounds
+     */
+    this.assets.addSrc(
+      [Sounds.JUMPING, Sounds.DIE, Sounds.CRASH, Sounds.MOVE],
+      AssetType.Sound,
+      true
+    );
   };
 
   /**
@@ -357,28 +397,7 @@ export class Player extends GameObject {
 
 export const player = new Player();
 
-player.id = "player";
-//center screen
-player.pos = {
-  x: window.innerWidth / 2,
-  y: window.innerHeight / 2
-};
-player.height = 50;
-player.width = 50;
-player.speed = 8;
-player.direction = Directions2D.NONE;
-player.imgsrc = [
-  IMAGES.UP,
-  IMAGES.DOWN,
-  IMAGES.DOWN_RIGHT,
-  IMAGES.DOWN_LEFT,
-  IMAGES.LEFT,
-  IMAGES.RIGHT,
-  IMAGES.CRASH
-];
-
 player.addAnimation("jump", player.jumpingAnimation);
-player.soundsrc = [Sounds.CRASH, Sounds.MOVE, Sounds.DIE, Sounds.JUMPING];
 
 $(window).keydown(player.keyDownHandle);
 $(window).keyup(player.keyUpHandle);

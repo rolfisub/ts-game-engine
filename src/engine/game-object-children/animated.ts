@@ -76,7 +76,7 @@ export class Animated extends Render {
     if (a) {
       this.animations[key] = a;
       a.images.forEach(i => {
-        this.imgsrc.push(i);
+        //this.imgsrc.push(i);
       });
     }
   };

@@ -1,10 +1,13 @@
 import { Model } from "./model";
+import { ImageAsset } from "../assets/image";
 
 export class Render extends Model {
-  public imgsrc: string[] = [];
+  /**
+   * render priority, the lower the number
+   * the object will be on top of others
+   * @type {number}
+   */
   public renderPriority: number = 1;
-
-  public getImage: (src) => CanvasImageSource;
 
   /**
    * image to be drawn
@@ -16,7 +19,7 @@ export class Render extends Model {
    * @param src
    */
   public updateImageTo = src => {
-    this.image = this.getImage(src);
+    this.image = this.assets.get<ImageAsset>(src).get();
   };
 
   /**

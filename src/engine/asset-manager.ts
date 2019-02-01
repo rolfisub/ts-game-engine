@@ -1,12 +1,10 @@
 import { SoundAsset } from "./assets/sound";
 import { ImageAsset } from "./assets/image";
-import { AnimationAsset } from "./assets/animation";
-import * as _ from "lodash";
 import { LoadableAsset } from "./assets/common";
+import * as _ from "lodash";
 
 export enum AssetType {
   Image = "image",
-  Animation = "animation",
   Sound = "sound"
 }
 
@@ -61,13 +59,6 @@ export class AssetManager implements AssetManagerInterface {
     switch (type) {
       case AssetType.Image: {
         this.assets[input.id] = new ImageAsset(input.id, input.src as string);
-        break;
-      }
-      case AssetType.Animation: {
-        this.assets[input.id] = new AnimationAsset(
-          input.id,
-          input.src as string[]
-        );
         break;
       }
       case AssetType.Sound: {

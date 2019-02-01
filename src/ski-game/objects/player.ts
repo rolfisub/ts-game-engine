@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import { Animation } from "../../engine/game-object-children/animated";
 import { GameObject } from "../../engine/game-object";
 import { AssetType } from "../../engine/asset-manager";
+import { ImageAsset } from "../../engine/assets/image";
 
 enum IMAGES {
   UP = "assets/img/skier_right.png",
@@ -105,7 +106,6 @@ export class Player extends GameObject {
      */
     this.assets.addSrc(
       [
-        IMAGES.DEAD,
         IMAGES.CRASH,
         IMAGES.RIGHT,
         IMAGES.LEFT,
@@ -119,6 +119,11 @@ export class Player extends GameObject {
     );
 
     /**
+     * animations
+     */
+    this.assets.addSrc(this.jumpingAnimation.images, AssetType.Image, true);
+
+    /**
      * load sounds
      */
     this.assets.addSrc(
@@ -126,6 +131,13 @@ export class Player extends GameObject {
       AssetType.Sound,
       true
     );
+
+    this.assets
+      .get<ImageAsset>(IMAGES.UP)
+      .load()
+      .then(am => {
+        this.image = am.get();
+      });
   };
 
   /**

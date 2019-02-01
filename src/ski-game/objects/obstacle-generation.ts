@@ -1,11 +1,16 @@
 import { GameObject } from "../../engine/game-object";
 import { Obstacle, ObstacleIMAGES } from "./obstacle";
 import { Directions2D } from "../../engine/common";
+import { AssetType } from "../../engine/asset-manager";
 
 class ObstacleGeneration extends GameObject {
   private obs = new Obstacle();
   private maxGenerated: number = 10;
   private hiddenArea: number = 500;
+
+  public init = () => {
+    this.assets.addSrc(this.obs.imgsrc, AssetType.Image, true);
+  };
 
   /**
    * process generation on each frame
@@ -86,7 +91,6 @@ class ObstacleGeneration extends GameObject {
     }
     return null;
   };
-
 }
 
 const og = new ObstacleGeneration();

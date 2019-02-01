@@ -9,6 +9,10 @@ class RhinoGeneration extends GameObject {
   private lastPlayerMove: number = Date.now();
   private rhinoDeployed: boolean = false;
 
+  public init = () => {
+    //do nothing
+  };
+
   /**
    * tracks when was the last time the player moved
    */

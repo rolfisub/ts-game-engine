@@ -8,6 +8,9 @@ class RampGeneration extends GameObject {
   private lastGenerated: number = Date.now();
   private generationInterval: number = 5000;
 
+  public init = () => {
+    //do nothing
+  };
   public update = () => {
     this.generateRamp();
   };

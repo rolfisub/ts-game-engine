@@ -49,6 +49,10 @@ export class Game {
       })[0];
     $(this.el).on("click", this.handleMouseClick);
     this.ctx = this.canvas.getContext("2d");
+    if (this.ctx) {
+      this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
     this.objects.forEach(o => {
       this.initObject(o);
     });

@@ -12,14 +12,18 @@ export class Render extends Model {
   /**
    * image to be drawn
    */
-  protected image: CanvasImageSource;
+  protected image: CanvasImageSource | undefined;
 
   /**
    * update current image to src
    * @param src
    */
   public updateImageTo = src => {
-    this.image = this.assets.get<ImageAsset>(src).get();
+    if (src === "") {
+      this.image = undefined;
+    } else {
+      this.image = this.assets.get<ImageAsset>(src).get();
+    }
   };
 
   /**

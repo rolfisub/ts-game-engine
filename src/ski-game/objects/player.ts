@@ -360,7 +360,7 @@ export class Player extends GameObject {
    * switches between moving and standing
    */
   public updatePlayerState = () => {
-    if (this.playerState !== PlayerState.Jumping) {
+    if (this.playerState !== PlayerState.Jumping && this.isAlive) {
       if (this.direction === Directions2D.NONE) {
         this.playerState = PlayerState.Standing;
       } else {

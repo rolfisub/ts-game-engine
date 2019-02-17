@@ -71,7 +71,7 @@ export class SoundAsset implements LoadableAsset<HTMLAudioElement> {
    */
   private isPlaying = (): boolean => {
     if (this.instance) {
-      return this.instance.currentTime > 0 && this.instance.paused;
+      return this.instance.currentTime > 0 && !this.instance.paused;
     }
     return false;
   };

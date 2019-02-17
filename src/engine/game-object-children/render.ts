@@ -1,22 +1,29 @@
 import { Model } from "./model";
+import { ImageAsset } from "../assets/image";
 
 export class Render extends Model {
-  public imgsrc: string[] = [];
+  /**
+   * render priority, the lower the number
+   * the object will be on top of others
+   * @type {number}
+   */
   public renderPriority: number = 1;
-
-  public getImage: (src) => CanvasImageSource;
 
   /**
    * image to be drawn
    */
-  protected image: CanvasImageSource;
+  protected image: CanvasImageSource | undefined;
 
   /**
    * update current image to src
    * @param src
    */
   public updateImageTo = src => {
-    this.image = this.getImage(src);
+    if (src === "") {
+      this.image = undefined;
+    } else {
+      this.image = this.assets.get<ImageAsset>(src).get();
+    }
   };
 
   /**

@@ -1,6 +1,7 @@
 import { Animation } from "../../engine/game-object-children/animated";
 import { Player } from "./player";
 import { GameObject } from "../../engine/game-object";
+import { AssetType } from "../../engine/asset-manager";
 
 enum Sounds {
   RUN = "assets/sounds/running.mp3",
@@ -51,6 +52,12 @@ export class Rhino extends GameObject {
     done: () => {
       this.stopSound(Sounds.EAT);
     }
+  };
+
+  public init = () => {
+    this.assets.addSrc(this.eatAnimation.images, AssetType.Image, true);
+    this.assets.addSrc(this.runAnimation.images, AssetType.Image, true);
+    this.assets.addSrc([Sounds.EAT, Sounds.RUN], AssetType.Sound, true);
   };
 
   /**

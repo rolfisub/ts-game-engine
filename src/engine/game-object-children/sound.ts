@@ -1,60 +1,65 @@
 import { Model } from "./model";
+import { SoundAsset } from "../assets/sound";
+import { ObjectStore } from "../common";
+import * as _ from "lodash";
 
 export class Sound extends Model {
   /**
-   * sound store
-   * @type {any[]}
+   * keep track of which sounds are being played
    */
-  public soundsrc: string[] = [];
+  protected soundStore: ObjectStore<string> = {};
 
   /**
-   * game API to get sound
-   */
-  public getSound: (sound) => HTMLAudioElement | undefined;
-
-  /**
-   * plays a sound from the store
+   * plays a sound and stops the others
    * @param src
+   * @param repeat
+   * @param stopOthers
    */
-  public playSound = src => {
-    const s = this.getSound(src);
-    if (s) {
-      //only play if sound is not being played already
-      if (!this.isSoundPlaying(s)) {
-        s.play();
-      }
+  public playSound = (
+    src: string,
+    repeat: boolean = false,
+    stopOthers: boolean = true
+  ) => {
+    if (stopOthers) {
+      this.stopOthers(src);
     }
+    this.trackSrc(src);
+    this.assets.get<SoundAsset>(src).play(repeat);
   };
 
   /**
-   * stops the sound and resets progress to beginning
-   * @param src
-   */
-  public stopSound = src => {
-    const s = this.getSound(src);
-    if (s) {
-      s.currentTime = 0;
-      s.pause();
-    }
-  };
-
-  /**
-   * just pauses the sound where it is
+   * pauses a sound by src
    * @param src
    */
   public pauseSound = src => {
-    const s = this.getSound(src);
-    if (s) {
-      s.pause();
+    this.assets.get<SoundAsset>(src).pause();
+  };
+
+  /**
+   * stops a sound by src
+   * @param src
+   */
+  public stopSound = src => {
+    this.assets.get<SoundAsset>(src).stop();
+  };
+
+  /**
+   * tracks which srcs have been played or are playing
+   * @param src
+   */
+  private trackSrc = src => {
+    if (!this.soundStore[src]) {
+      this.soundStore[src] = src;
     }
   };
 
   /**
-   * check if the sound is already playing
-   * @param {HTMLAudioElement} s
-   * @returns {boolean}
+   * stops any other sound playing
+   * @param src
    */
-  private isSoundPlaying = (s: HTMLAudioElement): boolean => {
-    return s.duration > 0 && !s.paused;
+  private stopOthers = src => {
+    _.keys(this.soundStore)
+      .filter(s => s !== src)
+      .forEach(ss => this.stopSound(ss));
   };
 }

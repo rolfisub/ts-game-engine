@@ -1,6 +1,7 @@
 import { GameObject } from "./game-object";
 import { Vector2D } from "./common";
 import * as $ from "jquery";
+import { AssetManager, AssetType } from "./asset-manager";
 
 export class Game {
   public width: number;
@@ -14,15 +15,10 @@ export class Game {
   public objects: GameObject[] = [];
 
   /**
-   * image store
-   * @type {{}}
+   * Asset Store Manager
+   * @type {AssetManager}
    */
-  private images: object = {};
-  /**
-   * sound store
-   * @type {{}}
-   */
-  private sounds: object = {};
+  private assets = new AssetManager();
 
   private ctx: CanvasRenderingContext2D | null;
   private canvas: HTMLCanvasElement;
@@ -82,28 +78,14 @@ export class Game {
   };
   /**
    * adds an object to be rendered in the game
-   * @param {GameObject} obj
-   * @returns {this}
+   * @param {GameObject} o
+   * @returns {Game}
    */
   public addObject = (o: GameObject) => {
     this.objects.push(o);
     this.initObject(o);
     return this;
   };
-
-  /**
-   * gets an image resource
-   * @param {string} src
-   * @returns {any}
-   */
-  protected getImage = (src: string) => this.images[src];
-
-  /**
-   * gets a sound html element
-   * @param {string} src
-   * @returns {any}
-   */
-  protected getSound = (src: string) => this.sounds[src];
 
   /**
    * gets an instance of an object, the first one found
@@ -135,8 +117,6 @@ export class Game {
    * @param {GameObject} o
    */
   private initObject = (o: GameObject) => {
-    this.loadImages(o.imgsrc);
-    this.loadSounds(o.soundsrc);
     this.injectGameApi(o);
     o.init();
   };
@@ -146,12 +126,11 @@ export class Game {
    * @param {GameObject} o
    */
   private injectGameApi = (o: GameObject) => {
-    o.getImage = this.getImage;
-    o.getSound = this.getSound;
     o.getObjectInstance = this.getObjectInstance;
     o.getObjectsById = this.getObjectsById;
     o.addObject = this.addObject;
     o.getGameInstance = () => this;
+    o.setAssetManager(this.assets);
   };
 
   /**
@@ -166,37 +145,6 @@ export class Game {
         this.height * window.devicePixelRatio
       );
     }
-  };
-
-  /**
-   * load an array of images in to memory
-   * @param {string[]} imgsrc
-   */
-  private loadImages = (imgsrc: string[]) => {
-    imgsrc.forEach(isrc => {
-      if (isrc && !this.images[isrc]) {
-        this.images[isrc] = new Image();
-        this.images[isrc].src = isrc;
-      }
-    });
-  };
-
-  /**
-   * loads all the registered sounds and
-   * stores their references in a key => value object
-   * @param {string[]} soundsrc
-   */
-  private loadSounds = (soundsrc: string[]) => {
-    soundsrc.forEach(ssrc => {
-      if (ssrc && !this.sounds[ssrc]) {
-        this.sounds[ssrc] = new Audio();
-        this.sounds[ssrc].src = ssrc;
-        this.sounds[ssrc].setAttribute("preload", "auto");
-        this.sounds[ssrc].setAttribute("controls", "none");
-        this.sounds[ssrc].style.display = "none";
-        document.body.appendChild(this.sounds[ssrc]);
-      }
-    });
   };
 
   /**

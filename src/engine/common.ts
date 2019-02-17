@@ -21,3 +21,7 @@ export enum COMMON_KEY_CODES {
   ARROW_LEFT = 37,
   ARROW_RIGHT = 39
 }
+
+export type ObjectStore<T> = {
+  [key: string]: T;
+};

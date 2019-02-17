@@ -1,4 +1,5 @@
 import { Render } from "./render";
+import { ObjectStore } from "../common";
 
 export interface Animation {
   images: string[];
@@ -9,16 +10,12 @@ export interface Animation {
   done?: () => void;
 }
 
-type AnimationStore = {
-  [key: string]: Animation;
-};
-
 export class Animated extends Render {
   /**
    * animations store
    * @type {{}}
    */
-  protected animations: AnimationStore = {};
+  protected animations: ObjectStore<Animation> = {};
   protected animationInterval: number;
   protected animationKey: string;
 
@@ -75,9 +72,6 @@ export class Animated extends Render {
   public addAnimation = (key: string, a: Animation) => {
     if (a) {
       this.animations[key] = a;
-      a.images.forEach(i => {
-        this.imgsrc.push(i);
-      });
     }
   };
 }

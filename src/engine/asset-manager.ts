@@ -87,7 +87,7 @@ export class AssetManager implements AssetManagerInterface {
     type: AssetType,
     autoload: boolean = false
   ) => {
-    const s = _.isString(src) ? [src] : [...src];
+    const s = typeof src === "string" ? [src] : [...src];
     this.addSrcList(s, type, autoload);
     return this;
   };
@@ -105,7 +105,7 @@ export class AssetManager implements AssetManagerInterface {
     autoload: boolean = false
   ) => {
     list.forEach(s => {
-      if (_.isString(s)) {
+      if (typeof s === "string") {
         this.add(
           {
             id: s,
@@ -125,6 +125,8 @@ export class AssetManager implements AssetManagerInterface {
             autoload
           );
         });
+      } else {
+        throw new Error("Source is not an array or a string");
       }
     });
     return this;
@@ -145,7 +147,7 @@ export class AssetManager implements AssetManagerInterface {
     }
   ): Promise<AssetManager> => {
     return new Promise<AssetManager>((resolve, reject) => {
-      if (_.isString(id)) {
+      if (typeof id === "string") {
         if (this.assets[id]) {
           callbacks.start(1);
           const p = this.assets[id].load();

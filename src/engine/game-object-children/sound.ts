@@ -1,12 +1,24 @@
 import { Model } from "./model";
 import { SoundAsset } from "../assets/sound";
+import { ObjectStore } from "../common";
+import * as _ from "lodash";
 
 export class Sound extends Model {
   /**
-   * plays a sound by src
-   * @param src
+   * keep track of which sounds are being played
    */
-  public playSound = src => {
+  protected soundStore: ObjectStore<string> = {};
+
+  /**
+   * plays a sound and stops the others
+   * @param src
+   * @param stopOthers
+   */
+  public playSound = (src: string, stopOthers: boolean = true) => {
+    if (stopOthers) {
+      this.stopOthers(src);
+    }
+    this.trackSrc(src);
     this.assets.get<SoundAsset>(src).play();
   };
 
@@ -24,5 +36,25 @@ export class Sound extends Model {
    */
   public stopSound = src => {
     this.assets.get<SoundAsset>(src).stop();
+  };
+
+  /**
+   * tracks which srcs have been played or are playing
+   * @param src
+   */
+  private trackSrc = src => {
+    if (!this.soundStore[src]) {
+      this.soundStore[src] = src;
+    }
+  };
+
+  /**
+   * stops any other sound playing
+   * @param src
+   */
+  private stopOthers = src => {
+    _.keys(this.soundStore)
+      .filter(s => s !== src)
+      .forEach(ss => this.stopSound(ss));
   };
 }

@@ -12,14 +12,19 @@ export class Sound extends Model {
   /**
    * plays a sound and stops the others
    * @param src
+   * @param repeat
    * @param stopOthers
    */
-  public playSound = (src: string, stopOthers: boolean = true) => {
+  public playSound = (
+    src: string,
+    repeat: boolean = false,
+    stopOthers: boolean = true
+  ) => {
     if (stopOthers) {
       this.stopOthers(src);
     }
     this.trackSrc(src);
-    this.assets.get<SoundAsset>(src).play();
+    this.assets.get<SoundAsset>(src).play(repeat);
   };
 
   /**

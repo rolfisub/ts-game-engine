@@ -33,9 +33,14 @@ export class SoundAsset implements LoadableAsset<HTMLAudioElement> {
   /**
    * plays the sound
    */
-  public play = () => {
+  public play = (repeat: boolean = false) => {
     if (this.instance) {
       if (!this.isPlaying()) {
+        if (repeat) {
+          if (!this.instance.getAttribute("loop")) {
+            this.instance.setAttribute("loop", "true");
+          }
+        }
         this.instance.play();
       }
     }

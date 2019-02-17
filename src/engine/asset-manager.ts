@@ -2,6 +2,7 @@ import { SoundAsset } from "./assets/sound";
 import { ImageAsset } from "./assets/image";
 import { LoadableAsset } from "./assets/common";
 import * as _ from "lodash";
+import { ObjectStore } from "./common";
 
 export enum AssetType {
   Image = "image",
@@ -12,10 +13,6 @@ export interface AssetInput {
   id: string;
   src: string | string[];
 }
-
-type AssetStore = {
-  [key: string]: any;
-};
 
 interface LoadCallbacks {
   start: (total: number) => void;
@@ -42,7 +39,7 @@ export class AssetManager implements AssetManagerInterface {
    * key value asset store
    * @type {{}}
    */
-  private assets: AssetStore = {};
+  private assets: ObjectStore<any> = {};
 
   /**
    * adds an asset to the store

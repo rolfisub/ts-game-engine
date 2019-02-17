@@ -400,7 +400,7 @@ export class Player extends GameObject {
 
   protected playSounds = () => {
     if (this.playerState === PlayerState.Moving) {
-      this.playSound(Sounds.MOVE);
+      this.playSound(Sounds.MOVE, true);
     } else {
       this.pauseSound(Sounds.MOVE);
     }

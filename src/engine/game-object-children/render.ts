@@ -27,18 +27,22 @@ export class Render extends Model {
   };
 
   /**
-   * basic rendering function
+   * basic rendering function, draws an image
    * @param {CanvasRenderingContext2D} ctx
    */
-  public render = (ctx: CanvasRenderingContext2D | null) => {
+  public render = (
+    ctx: CanvasRenderingContext2D | WebGLRenderingContext | null
+  ) => {
     if (ctx && this.image) {
-      ctx.drawImage(
-        this.image,
-        this.pos.x,
-        this.pos.y,
-        this.width,
-        this.height
-      );
+      if (ctx instanceof CanvasRenderingContext2D) {
+        ctx.drawImage(
+          this.image,
+          this.pos.x,
+          this.pos.y,
+          this.width,
+          this.height
+        );
+      }
     }
   };
 }

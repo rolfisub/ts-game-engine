@@ -20,7 +20,17 @@ export class Game {
    */
   private assets = new AssetManager();
 
-  private ctx: CanvasRenderingContext2D | null;
+  /**
+   * context used
+   */
+  private ctx: CanvasRenderingContext2D | WebGLRenderingContext | null;
+  /**
+   * context type
+   */
+  private ctxType: "2d" | "webgl";
+  /**
+   * canvas element
+   */
   private canvas: HTMLCanvasElement;
 
   /**
@@ -48,21 +58,26 @@ export class Game {
         border: "1px solid"
       })[0];
     $(this.el).on("click", this.handleMouseClick);
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.createRenderContext("2d");
     if (this.ctx) {
-      this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      if (this.ctx instanceof CanvasRenderingContext2D) {
+        this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      }
     }
-
     this.objects.forEach(o => {
       this.initObject(o);
     });
   };
+
   /**
    * main render method
    */
   public gameLoop = () => {
     if (this.ctx) {
-      this.ctx.save();
+      if (this.ctx instanceof CanvasRenderingContext2D) {
+        this.ctx.save();
+      }
+
       this.clearCanvas();
       this.objects
         //render priority
@@ -72,7 +87,11 @@ export class Game {
           o.update();
           o.render(this.ctx);
         });
-      this.ctx.restore();
+
+      if (this.ctx instanceof CanvasRenderingContext2D) {
+        this.ctx.restore();
+      }
+
       requestAnimationFrame(this.gameLoop);
     }
   };
@@ -113,6 +132,25 @@ export class Game {
   };
 
   /**
+   * returns ctx
+   */
+  private createRenderContext = (
+    ctxName: string = "webgl"
+  ): CanvasRenderingContext2D | WebGLRenderingContext | null => {
+    const ctx = this.canvas.getContext(ctxName);
+    if (ctx) {
+      return ctx;
+    }
+    if (ctxName === "webgl") {
+      const ctx2d = this.canvas.getContext("2d");
+      if (ctx2d) {
+        return ctx2d;
+      }
+    }
+    return null;
+  };
+
+  /**
    * initializes an object
    * @param {GameObject} o
    */
@@ -138,12 +176,14 @@ export class Game {
    */
   private clearCanvas = () => {
     if (this.ctx) {
-      this.ctx.clearRect(
-        0,
-        0,
-        this.width * window.devicePixelRatio,
-        this.height * window.devicePixelRatio
-      );
+      if (this.ctx instanceof CanvasRenderingContext2D) {
+        this.ctx.clearRect(
+          0,
+          0,
+          this.width * window.devicePixelRatio,
+          this.height * window.devicePixelRatio
+        );
+      }
     }
   };
 
